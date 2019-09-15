@@ -80,10 +80,11 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "eskolare.users.apps.UsersConfig",
     # Your stuff: custom apps go here
+    "books",
     "categories",
-    "posts",
-    "products",
-    "sellers",
+    # "posts",
+    # "products",
+    # "sellers",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

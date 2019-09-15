@@ -38,10 +38,10 @@ urlpatterns = [
     path("api/rest-auth/", include("rest_auth.urls")),
     path("api/rest-auth/registration/", include("rest_auth.registration.urls")),
 
-    path('api/', include('posts.urls')),
+    path('api/', include('books.urls')),
     path('api/', include("eskolare.users.api.urls")),
     path('api/', include('categories.api.urls')),
-    path('api/', include('sellers.api.urls')),
+    # path('api/', include('sellers.api.urls')),
 
     # email authentication with JWT
     re_path(r'^api/auth/obtain_token/$', ObtainJSONWebToken.as_view(serializer_class=CustomJWTSerializer), name='api-jwt-auth'),

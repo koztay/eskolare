@@ -5,7 +5,7 @@ from ..models import Category
 from .serializers import CategorySerializer
 
 
-class CategoryViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
+class CategoryViewSet(viewsets.ModelViewSet):
     """Viewset for product Categories"""
     authentication_classes = ()  # listelemek için login olmaya gerek yok.
     permission_classes = ()  # listelemek için login olmaya gerek yok.
