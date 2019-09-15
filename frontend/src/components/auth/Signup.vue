@@ -129,6 +129,7 @@ export default {
           if ("password2" in err.response.data) {
             this.errorMessages = [...err.response.data.password2];
           }
+          this.errorMessages = err.response.data;
           console.log(this.errorMessages);
         });
     }

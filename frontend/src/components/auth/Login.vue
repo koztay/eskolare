@@ -5,6 +5,7 @@
         <v-flex xs12 sm8 md4>
           <v-flex mb-3 text-xs-center red--text v-show="backendError">
             <div>Login failed, email or password is not correct!</div>
+            <div v-for="(message, index) in errorMessages" v-bind:key="index">{{message}}</div>
           </v-flex>
           <v-card class="elevation-12">
             <v-toolbar dark color="primary">
@@ -93,10 +94,12 @@ export default {
           .then(() => {
             this.$router.push("/account");
           })
-          .catch(() => {
+          .catch(err => {
             // console.log("error oluştu, hataya göre aksiyon al.");
             // console.log(err.response.data);
             this.backendError = true;
+            this.errorMessages = err.response.data;
+            console.log(this.errorMessages);
           });
       }
     }
