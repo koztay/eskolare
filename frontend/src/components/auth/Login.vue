@@ -3,8 +3,8 @@
     <v-container fluid fill-height>
       <v-layout align-center justify-center>
         <v-flex xs12 sm8 md4>
-          <v-flex mb-3 text-xs-center red--text v-show="backendError">
-            <div>Login failed, email or password is not correct!</div>
+          <v-flex mb-3 text-xs-center red--text>
+            <!-- <div>Login failed, email or password is not correct!</div> -->
             <div v-for="(message, index) in errorMessages" v-bind:key="index">{{message}}</div>
           </v-flex>
           <v-card class="elevation-12">
@@ -43,9 +43,9 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <router-link :to="{ name: 'forgotPassword'}">
+              <!-- <router-link :to="{ name: 'forgotPassword'}">
                 <v-btn color="primary" flat class="text-capitalize">Forgot Password</v-btn>
-              </router-link>
+              </router-link>-->
               <router-link :to="{ name: 'signup'}">
                 <v-btn color="primary" flat class="text-capitalize">Signup</v-btn>
               </router-link>
@@ -76,7 +76,8 @@ export default {
     return {
       email: "",
       password: "",
-      backendError: false
+      backendError: false,
+      errorMessages: []
     };
   },
   validations: {
@@ -95,10 +96,9 @@ export default {
             this.$router.push("/account");
           })
           .catch(err => {
-            // console.log("error oluştu, hataya göre aksiyon al.");
-            // console.log(err.response.data);
-            this.backendError = true;
-            this.errorMessages = err.response.data;
+            this.errorMessages.push(
+              "Can not be logged in with provided credentials. Please check your email or password is correct."
+            );
             console.log(this.errorMessages);
           });
       }

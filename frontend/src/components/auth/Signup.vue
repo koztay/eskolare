@@ -60,9 +60,9 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <router-link :to="{ name: 'forgotPassword'}">
+              <!-- <router-link :to="{ name: 'forgotPassword'}">
                 <v-btn color="primary" flat class="text-capitalize">Forgot Password</v-btn>
-              </router-link>
+              </router-link>-->
               <router-link :to="{ name: 'login'}">
                 <v-btn color="primary" flat class="text-capitalize">Login</v-btn>
               </router-link>
