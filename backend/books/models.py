@@ -26,8 +26,9 @@ class Author(models.Model):
 class Book(models.Model):
     title = models.CharField(max_length=150)
     description = models.TextField(_("description"))
-    categories = models.ManyToManyField("categories.Category", verbose_name=_("Categories"))
-    authors = models.ManyToManyField(Author, verbose_name=_("Authors"))
+    categories = models.ManyToManyField("categories.Category", verbose_name=_(
+        "Categories"), related_name='categories_books')
+    authors = models.ManyToManyField(Author, verbose_name=_("Authors"), related_name='authors_books')
     read_by = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_("Read By"), blank=True)
     image = ImageField(upload_to=book_image_file_path, blank=True, null=True)
 
