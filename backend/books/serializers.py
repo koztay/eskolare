@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from categories.api.serializers import CategorySerializer
+from categories.models import Category
 
 from . import models
 
@@ -12,11 +13,11 @@ class AuthorSerializer(serializers.ModelSerializer):
 
 
 class BookSerializer(serializers.ModelSerializer):
-    authors = AuthorSerializer()
-    categories = CategorySerializer()
+    authors = serializers.PrimaryKeyRelatedField(many=True, queryset=models.Author.objects.all())
+    categories = serializers.PrimaryKeyRelatedField(many=True, queryset=Category.objects.all())
 
     class Meta:
-        fields = ('id', 'title', 'description', 'categories',  'authors', 'read_by')
+        fields = ('id', 'title', 'description', 'image',  'categories', 'authors', 'reviews', 'read_by')
         model = models.Book
 
 

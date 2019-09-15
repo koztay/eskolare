@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
@@ -27,7 +28,7 @@ class Book(models.Model):
     description = models.TextField(_("description"))
     categories = models.ManyToManyField("categories.Category", verbose_name=_("Categories"))
     authors = models.ManyToManyField(Author, verbose_name=_("Authors"))
-    read_by = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_("Read By"), blank=True, null=True)
+    read_by = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_("Read By"), blank=True)
     image = ImageField(upload_to=book_image_file_path, blank=True, null=True)
 
     class Meta:
@@ -35,12 +36,13 @@ class Book(models.Model):
         verbose_name_plural = _("Books")
 
     def __str__(self):
-        return self.name
+        return self.title
 
 
 class Review(models.Model):
     review = models.TextField(_("Review"))
-    user = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_("User"))
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_(
+        "User"), related_name='users_reviews', on_delete=models.CASCADE)
     book = models.ForeignKey(Book, related_name='reviews', on_delete=models.CASCADE)
 
     class Meta:
@@ -48,7 +50,6 @@ class Review(models.Model):
         verbose_name_plural = _("Reviews")
 
     def __str__(self):
-        return self.name
-
+        return self.review[:100]
     # def get_absolute_url(self):
     #     return reverse("Review_detail", kwargs={"pk": self.pk})
