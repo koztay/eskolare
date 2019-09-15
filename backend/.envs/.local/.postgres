@@ -1,0 +1,7 @@
+# PostgreSQL
+# ------------------------------------------------------------------------------
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=eskolare
+POSTGRES_USER=pFjDrVTwvFOvnPgKNuYpTyYmrejFjoOk
+POSTGRES_PASSWORD=TD3V1n6SX585D3gI2M4dbSLzqHWxz597bUR6Ae99divPZtkAvv0bmkVzyrZOFhhW

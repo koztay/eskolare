@@ -1,0 +1,132 @@
+version: '3'
+
+volumes:
+  local_postgres_data: {}
+  local_postgres_data_backups: {}
+  django-static-dev: {}
+
+services:
+  traefik:
+    image: traefik
+    container_name: traefik_dev_eskolare
+    command: --api --docker
+    volumes:
+      - ./traefik/dev/traefik.toml:/etc/traefik/traefik.toml
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - '443:443'
+      - '80:80'
+      - '8070:8080'
+    networks:
+      - main
+
+  nginx:
+    container_name: nginx_dev_eskolare
+    build:
+      context: .
+      dockerfile: nginx/dev/Dockerfile
+    depends_on:
+      - django
+      - frontend
+      - flower
+      # - vuepress
+    volumes:
+      - ./nginx/dev/dev.conf:/etc/nginx/nginx.conf:ro
+      - django-static-dev:/usr/src/app/staticfiles
+    networks:
+      - main
+    labels:
+      - 'traefik.django=nginx'
+      - 'traefik.frontend.rule=PathPrefix: /'
+      - traefik.docker.network=main
+      - traefik.port=80
+
+  django: &django
+    build:
+      context: ./backend
+      dockerfile: ./compose/local/django/Dockerfile
+    image: eskolare_local_django
+    depends_on:
+      - postgres
+    volumes:
+      - ./backend:/app
+    env_file:
+      - ./backend/.envs/.local/.django
+      - ./backend/.envs/.local/.postgres
+    ports:
+      - '8000:8000'
+    command: /start
+    networks:
+      - main
+
+  postgres:
+    build:
+      context: ./backend
+      dockerfile: ./compose/production/postgres/Dockerfile
+    image: eskolare_production_postgres
+    volumes:
+      - local_postgres_data:/var/lib/postgresql/data
+      - local_postgres_data_backups:/backups
+    env_file:
+      - ./backend/.envs/.local/.postgres
+    networks:
+      - main
+
+  redis:
+    image: redis:5.0
+    networks:
+      - main
+
+  celeryworker:
+    <<: *django
+    image: eskolare_local_celeryworker
+    networks:
+      - main
+    depends_on:
+      - redis
+      - postgres
+
+    ports: []
+    command: /start-celeryworker
+
+  celerybeat:
+    <<: *django
+    image: eskolare_local_celerybeat
+    networks:
+      - main
+    depends_on:
+      - redis
+      - postgres
+
+    ports: []
+    command: /start-celerybeat
+
+  flower:
+    <<: *django
+    image: eskolare_local_flower
+    networks:
+      - main
+    ports:
+      - '5555:5555'
+    command: /start-flower
+
+  frontend:
+    container_name: frontend_dev_eskolare
+    build:
+      context: ./frontend
+    volumes:
+      - ./frontend:/app/:ro
+      - '/app/node_modules'
+    ports:
+      - '8080:8080'
+    networks:
+      - main
+    depends_on:
+      - django
+      - postgres
+    environment:
+      - NODE_ENV=development
+
+networks:
+  main:
+    driver: bridge

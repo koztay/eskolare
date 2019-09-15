@@ -1,0 +1,13 @@
+[run]
+include = eskolare/*
+omit = 
+    *migrations*, 
+    *tests*, 
+    *.html, 
+    docs/*, 
+    config/*, 
+    manage.py, 
+    merge_production_dotenvs_in_dotenv.py
+
+plugins =
+    django_coverage_plugin

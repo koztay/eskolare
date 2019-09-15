@@ -1,0 +1,133 @@
+version: '3'
+
+volumes:
+  production_postgres_data: {}
+  production_postgres_data_backups: {}
+  production_traefik: {}
+  django-static: {}
+
+services:
+  traefik:
+    image: traefik
+    container_name: traefik
+    command: --api --docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik/prod/traefik.toml:/etc/traefik/traefik.toml
+      - /var/:/var/acme.json
+    ports:
+      - '443:443'
+      - '80:80'
+      - '8070:8080'
+    networks:
+      - main
+    labels:
+      - traefik.enable=false
+
+  nginx:
+    container_name: nginx_production
+    build:
+      context: .
+      dockerfile: nginx/prod/Dockerfile
+    ports:
+      - '90:80'
+    depends_on:
+      - django
+      # - vuepress
+    volumes:
+      # - ./nginx/prod/prod.conf:/etc/nginx/nginx.conf:ro
+      - django-static:/usr/src/app/static
+    networks:
+      - main
+    labels:
+      - 'traefik.django=nginx'
+      - 'traefik.docker.network=main'
+      - 'traefik.frontend.rule=Host:organik.se' # bu hostu doğru yazmazsan frontend çalışmıyor.
+      - 'traefik.enable=true'
+      - 'traefik.frontend.passHostHeader=true'
+      - 'traefik.port=80'
+
+  django: &django
+    build:
+      context: ./backend
+      dockerfile: ./compose/production/django/Dockerfile
+    image: eskolare_production_django
+    depends_on:
+      - postgres
+      - redis
+    env_file:
+      - ./backend/.envs/.production/.django
+      - ./backend/.envs/.production/.postgres
+    command: /start
+    networks:
+      - main
+    labels:
+      - traefik.enable=false
+
+  postgres:
+    build:
+      context: ./backend
+      dockerfile: ./compose/production/postgres/Dockerfile
+    image: eskolare_production_postgres
+    volumes:
+      - production_postgres_data:/var/lib/postgresql/data
+      - production_postgres_data_backups:/backups
+    env_file:
+      - ./backend/.envs/.production/.postgres
+    networks:
+      - main
+    labels:
+      - traefik.enable=false
+
+  redis:
+    image: redis:5.0
+    networks:
+      - main
+    labels:
+      - traefik.enable=false
+
+  celeryworker:
+    <<: *django
+    image: eskolare_production_celeryworker
+    command: /start-celeryworker
+    networks:
+      - main
+    labels:
+      - traefik.enable=false
+
+  celerybeat:
+    <<: *django
+    image: eskolare_production_celerybeat
+    command: /start-celerybeat
+    networks:
+      - main
+    labels:
+      - traefik.enable=false
+
+  flower:
+    <<: *django
+    image: eskolare_production_flower
+    ports:
+      - '5555:5555'
+    command: /start-flower
+    networks:
+      - main
+    labels:
+      - traefik.enable=false
+
+  awscli:
+    build:
+      context: ./backend
+      dockerfile: ./compose/production/aws/Dockerfile
+    env_file:
+      - ./backend/.envs/.production/.django
+    volumes:
+      - production_postgres_data_backups:/backups
+    networks:
+      - main
+    labels:
+      - traefik.enable=false
+
+networks:
+  main:
+    driver: bridge
