@@ -4,7 +4,7 @@
       <v-layout align-center justify-center>
         <v-flex xs12 sm8 md4>
           <v-flex mb-3 text-xs-center red--text v-show="backendError">
-            <div>Login failed, username or password is not correct!</div>
+            <div>Login failed, email or password is not correct!</div>
           </v-flex>
           <v-card class="elevation-12">
             <v-toolbar dark color="primary">
@@ -15,13 +15,13 @@
               <v-form>
                 <v-text-field
                   prepend-icon="fas fa-user"
-                  name="username"
-                  label="Username"
+                  name="email"
+                  label="Email"
                   type="text"
-                  v-model="username"
-                  :error-messages="usernameErrors"
-                  @input="$v.username.$touch()"
-                  @blur="$v.username.$touch()"
+                  v-model="email"
+                  :error-messages="emailErrors"
+                  @input="$v.email.$touch()"
+                  @blur="$v.email.$touch()"
                   @focus="backendError = false"
                   required
                 ></v-text-field>
@@ -66,33 +66,30 @@
 import { AUTH_REQUEST } from "@/store/actions/auth";
 import { mapGetters } from "vuex";
 
-import { required, minLength } from "vuelidate/lib/validators";
+import { required, minLength, email } from "vuelidate/lib/validators";
 // import theme from "../store/modules/theme";
 
 export default {
   name: "login",
   data() {
     return {
-      username: "",
+      email: "",
       password: "",
       backendError: false
     };
   },
   validations: {
-    username: { required },
+    email: { required, email },
     password: { required, minLength: minLength(8) }
   },
   methods: {
     login: function() {
       this.$v.$touch();
-      if (
-        this.usernameErrors.length === 0 &&
-        this.passwordErrors.length === 0
-      ) {
-        const { username, password } = this;
+      if (this.emailErrors.length === 0 && this.passwordErrors.length === 0) {
+        const { email, password } = this;
         //   console.log({ username, password });
         this.$store
-          .dispatch(AUTH_REQUEST, { username, password })
+          .dispatch(AUTH_REQUEST, { email, password })
           .then(() => {
             this.$router.push("/account");
           })
@@ -109,12 +106,13 @@ export default {
     loading: function() {
       return this.authStatus === "loading" && !this.isAuthenticated;
     },
-    usernameErrors() {
+    emailErrors() {
       const errors = [];
-      if (!this.$v.username.$dirty) return errors;
+      if (!this.$v.email.$dirty) return errors;
       // !this.$v.name.decimal && errors.push('Name must be a number')
       // !this.$v.usernname.maxLength && errors.push('Name must be at most 10 characters long')
-      !this.$v.username.required && errors.push("Kullanıcı adı zorunludur.");
+      !this.$v.email.required && errors.push("Email is required.");
+      !this.$v.email.email && errors.push("Please enter an email.");
       return errors;
     },
     passwordErrors() {
@@ -122,15 +120,15 @@ export default {
       if (!this.$v.password.$dirty) return errors;
       // !this.$v.name.decimal && errors.push('Name must be a number')
       //   !this.$v.usernname.maxLength && errors.push('Name must be at most 10 characters long')
-      !this.$v.password.required && errors.push("Şifre zorunludur.");
+      !this.$v.password.required && errors.push("Password is required.");
       !this.$v.password.minLength &&
-        errors.push("Şifreniz en az 8 karakter olmalı.");
+        errors.push("Password should be 8 characters at least.");
       return errors;
     },
     submitButtonDisabled() {
-      const formErrorsArray = [...this.usernameErrors, ...this.passwordErrors];
+      const formErrorsArray = [...this.emailErrors, ...this.passwordErrors];
       // console.log(formErrorsArray);
-      if (!this.$v.username.$dirty || !this.$v.password.$dirty) {
+      if (!this.$v.email.$dirty || !this.$v.password.$dirty) {
         return true;
       }
       return formErrorsArray.length > 0;

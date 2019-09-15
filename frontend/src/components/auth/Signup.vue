@@ -14,21 +14,6 @@
             <v-card-text>
               <v-form>
                 <v-text-field
-                  prepend-icon="fas fa-user"
-                  name="username"
-                  label="Username*"
-                  type="text"
-                  v-model="username"
-                  :error-messages="usernameErrors"
-                  @input="$v.username.$touch()"
-                  @blur="$v.username.$touch()"
-                  @focus="backendError = false"
-                  required
-                ></v-text-field>
-                <ul>
-                  <li>Only letters, numbers and @/./+/-/_ characters allowed.</li>
-                </ul>
-                <v-text-field
                   prepend-icon="fas fa-envelope"
                   name="email"
                   label="Email*"
@@ -67,7 +52,7 @@
                 ></v-text-field>
                 <ul>
                   <li>Your password can't be too similar to your other personal information.</li>
-                  <li>Your password must contain at least 6 characters.</li>
+                  <li>Your password must contain at least 8 characters.</li>
                   <li>Your password can't be a commonly used password.</li>
                   <li>Your password can't be entirely numeric.</li>
                 </ul>
@@ -106,7 +91,6 @@ export default {
   name: "signup",
   data() {
     return {
-      username: "",
       email: "",
       password1: "",
       password2: "",
@@ -115,7 +99,6 @@ export default {
     };
   },
   validations: {
-    username: { required },
     email: { required, email },
     password1: {
       required,
@@ -129,20 +112,14 @@ export default {
   },
   methods: {
     signup: function() {
-      const { username, email, password1, password2 } = this;
+      const { email, password1, password2 } = this;
       this.$store
-        .dispatch(SIGNUP_REQUEST, { username, email, password1, password2 })
+        .dispatch(SIGNUP_REQUEST, { email, password1, password2 })
         .then(() => {
           this.$router.push("/account");
           this.dialog = false;
         })
         .catch(err => {
-          // console.log("error oluştu, hataya göre aksiyon al.");
-          // console.log(err.response.data);
-
-          if ("username" in err.response.data) {
-            this.errorMessages = [...err.response.data.username];
-          }
           if ("email" in err.response.data) {
             this.errorMessages = [...err.response.data.email];
           }
@@ -161,32 +138,20 @@ export default {
     loading: function() {
       return this.authStatus === "loading" && !this.isAuthenticated;
     },
-    usernameErrors() {
-      const errors = [];
-      if (!this.$v.username.$dirty) return errors;
-      // !this.$v.name.decimal && errors.push('Name must be a number')
-      // !this.$v.usernname.maxLength && errors.push('Name must be at most 10 characters long')
-      !this.$v.username.required && errors.push("Kullanıcı adı zorunludur.");
-      return errors;
-    },
     emailErrors() {
       const errors = [];
       if (!this.$v.email.$dirty) return errors;
-      // !this.$v.name.decimal && errors.push('Name must be a number')
-      // !this.$v.usernname.maxLength && errors.push('Name must be at most 10 characters long')
-      !this.$v.email.required && errors.push("ePosta adresi zorunludur.");
-      !this.$v.email.email && errors.push("Lütfen ePosta adresi girin.");
+      !this.$v.email.required && errors.push("Email is required.");
+      !this.$v.email.email && errors.push("Please enter an email address");
       return errors;
     },
 
     password1Errors() {
       const errors = [];
       if (!this.$v.password1.$dirty) return errors;
-      // !this.$v.name.decimal && errors.push('Name must be a number')
-      //   !this.$v.usernname.maxLength && errors.push('Name must be at most 10 characters long')
-      !this.$v.password1.required && errors.push("Şifre zorunludur.");
+      !this.$v.password1.required && errors.push("Password is required.");
       !this.$v.password1.minLength &&
-        errors.push("Şifreniz en az 8 karakter olmalı.");
+        errors.push("Password should be 8 characters at least.");
       return errors;
     },
     password2Errors() {
@@ -194,22 +159,22 @@ export default {
       if (!this.$v.password2.$dirty) return errors;
       // !this.$v.name.decimal && errors.push('Name must be a number')
       //   !this.$v.usernname.maxLength && errors.push('Name must be at most 10 characters long')
-      !this.$v.password2.required && errors.push("Şifre tekrarı zorunludur.");
-      !this.$v.password2.sameAsPassword && errors.push("Şifreniz aynı değil.");
+      !this.$v.password2.required &&
+        errors.push("You should confirm your password.");
+      !this.$v.password2.sameAsPassword &&
+        errors.push("Your passwords are not same.");
       !this.$v.password2.minLength &&
-        errors.push("Şifreniz en az 8 karakter olmalı.");
+        errors.push("Password should be 8 characters at least.");
       return errors;
     },
     submitButtonDisabled() {
       const formErrorsArray = [
         ...this.password1Errors,
         ...this.password2Errors,
-        ...this.emailErrors,
-        ...this.usernameErrors
+        ...this.emailErrors
       ];
       // console.log(formErrorsArray);
       if (
-        !this.$v.username.$dirty ||
         !this.$v.email.$dirty ||
         !this.$v.password1.$dirty ||
         !this.$v.password2.$dirty

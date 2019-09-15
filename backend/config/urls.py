@@ -6,7 +6,10 @@ from django.contrib import admin
 from django.views import defaults as default_views
 
 
+from eskolare.users.api.serializers import CustomJWTSerializer
+
 from rest_framework_jwt.views import (
+    ObtainJSONWebToken,
     obtain_jwt_token,
     refresh_jwt_token,
     verify_jwt_token,
@@ -40,7 +43,9 @@ urlpatterns = [
     path('api/', include('categories.api.urls')),
     path('api/', include('sellers.api.urls')),
 
-    re_path(r'^api/auth/obtain_token/$', obtain_jwt_token, name='api-jwt-auth'),
+    # email authentication with JWT
+    re_path(r'^api/auth/obtain_token/$', ObtainJSONWebToken.as_view(serializer_class=CustomJWTSerializer), name='api-jwt-auth'),
+    # re_path(r'^api/auth/obtain_token/$', obtain_jwt_token, name='api-jwt-auth'),
     re_path(r'^api/auth/refresh_token/$', refresh_jwt_token, name='api-jwt-refresh'),
     re_path(r'^api/auth/verify_token/$', verify_jwt_token, name='api-jwt-verify'),
 
