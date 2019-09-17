@@ -1,46 +1,42 @@
 
 <template>
-  <v-card class="mx-auto category-tree" max-width="500" color="secondary">
-    <v-sheet class="pa-2 secondary lighten-2">
-      <v-text-field
-        v-model="search"
-        label="Kategori Ara..."
-        dark
-        flat
-        solo-inverted
-        hide-details
-        clearable
-        clear-icon="far fa-times-circle"
-      ></v-text-field>
-    </v-sheet>
-    <v-card-text>
-      <v-treeview
-        :items="categories"
-        :search="search"
-        :open.sync="open"
-        :filter="filter"
-        item-text="title"
-        hoverable
-        activatable
-      >
-        >
-        <template v-slot:prepend="{ item }">
-          <v-icon
-            v-if="item.children"
-            v-text="`mdi-${item.id === 1 ? 'home-variant' : 'folder-network'}`"
-          ></v-icon>
-        </template>
-      </v-treeview>
-    </v-card-text>
-  </v-card>
+  <div>
+    <v-card class="mx-auto mt-5 mb-5" width="70%">
+      <v-sheet class="pa-2 secondary lighten-2">
+        <v-text-field
+          v-model="search"
+          label="Search..."
+          dark
+          flat
+          solo-inverted
+          hide-details
+          clearable
+          clear-icon="far fa-times-circle"
+        ></v-text-field>
+      </v-sheet>
+      <v-card-text>
+        <v-treeview
+          :items="this.categories"
+          :search="search"
+          :open.sync="open"
+          :filter="filter"
+          item-text="title"
+          hoverable
+          activatable
+          class="treeview"
+        ></v-treeview>
+      </v-card-text>
+    </v-card>
+  </div>
 </template>
 
 <script>
-import apiCall from "@/utils/api";
+import { mapState } from "vuex";
+
 export default {
   data() {
     return {
-      categories: [],
+      // categories: [],
       open: [],
       search: null,
       caseSensitive: false,
@@ -48,23 +44,12 @@ export default {
       filteredCategories: []
     };
   },
-  methods: {
-    fetchCategories() {
-      apiCall
-        .get("/api/categories/")
-        .then(resp => {
-          this.categories = resp.data.results;
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
+  methods: {},
+  created() {
+    this.$store.dispatch("fetchCategories");
   },
-  mounted() {
-    this.fetchCategories();
-  },
-
   computed: {
+    ...mapState({ categories: state => state.categories.categories }),
     filter() {
       return this.caseSensitive
         ? (item, search, textKey) => item[textKey].indexOf(search) > -1
@@ -73,3 +58,4 @@ export default {
   }
 };
 </script>
+

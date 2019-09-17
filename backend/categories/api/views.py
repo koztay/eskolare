@@ -9,6 +9,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
     """Viewset for product Categories"""
     authentication_classes = ()  # listelemek için login olmaya gerek yok.
     permission_classes = ()  # listelemek için login olmaya gerek yok.
+    pagination_class = None
     # ana kategorileri getirmesi ve altına onun childrenlarını getirmesi lazım
     queryset = Category.objects.filter(parent=None)
     # queryset = Category.objects.all()

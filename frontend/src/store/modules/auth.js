@@ -1,4 +1,4 @@
-import JwtDecode from 'jwt-decode';
+import JwtDecode from "jwt-decode";
 
 import {
   AUTH_REQUEST,
@@ -6,13 +6,13 @@ import {
   AUTH_ERROR,
   AUTH_SUCCESS,
   AUTH_LOGOUT
-} from '../actions/auth';
-import { USER_REQUEST } from '../actions/user';
-import apiCall from '../../utils/api.js';
+} from "../actions/auth";
+import { USER_REQUEST } from "../actions/user";
+import apiCall from "../../utils/api.js";
 
 const state = {
-  token: localStorage.getItem('user-token') || '',
-  status: '',
+  token: localStorage.getItem("user-token") || "",
+  status: "",
   hasLoadedOnce: false,
   badLogin: false
 };
@@ -39,7 +39,7 @@ const actions = {
     setTimeout(() => {
       const token = state.token;
       if (token) {
-        dispatch('refreshToken');
+        dispatch("refreshToken");
       }
     }, duration); //10 saniye tolorans koydum expire olmadan çalışması lazım.
   },
@@ -49,19 +49,19 @@ const actions = {
     return new Promise((resolve, reject) => {
       commit(AUTH_REQUEST);
       apiCall
-        .post('/api/auth/obtain_token/', user)
+        .post("/api/auth/obtain_token/", user)
         .then(resp => {
           // token 'ı storage 'a yazıyoruz.
-          localStorage.setItem('user-token', resp.data.token);
+          localStorage.setItem("user-token", resp.data.token);
           const expirationDate = new Date(
             JwtDecode(resp.data.token).exp * 1000
           );
           // token expire süresini storage 'a yazıyoruz.
-          localStorage.setItem('expirationDate', expirationDate);
+          localStorage.setItem("expirationDate", expirationDate);
           commit(AUTH_SUCCESS, resp);
           dispatch(USER_REQUEST);
           // login olunca timer 'ı çalıştırmamız lazım ki sürekli refresh etsin token'ı
-          dispatch('setLogoutTimer', expirationDate);
+          dispatch("setLogoutTimer", expirationDate);
           resolve(resp);
         })
         .catch(err => {
@@ -77,24 +77,24 @@ const actions = {
     return new Promise((resolve, reject) => {
       // commit(SIGNUP_REQUEST);
       apiCall
-        .post('/api/rest-auth/registration/', user)
+        .post("/api/rest-auth/registration/", user)
         .then(resp => {
           // token 'ı storage 'a yazıyoruz.
-          localStorage.setItem('user-token', resp.data.token);
+          localStorage.setItem("user-token", resp.data.token);
           const expirationDate = new Date(
             JwtDecode(resp.data.token).exp * 1000
           );
           // token expire süresini storage 'a yazıyoruz.
-          localStorage.setItem('expirationDate', expirationDate);
+          localStorage.setItem("expirationDate", expirationDate);
           commit(AUTH_SUCCESS, resp);
           dispatch(USER_REQUEST);
           // login olunca timer 'ı çalıştırmamız lazım ki sürekli refresh etsin token'ı
-          dispatch('setLogoutTimer', expirationDate);
+          dispatch("setLogoutTimer", expirationDate);
           resolve(resp);
         })
         .catch(err => {
           commit(AUTH_ERROR, err);
-          localStorage.removeItem('user-token');
+          localStorage.removeItem("user-token");
           reject(err);
         });
     });
@@ -109,16 +109,16 @@ const actions = {
       commit(AUTH_LOGOUT);
       return;
     }
-    const expirationDate = localStorage.getItem('expirationDate');
+    const expirationDate = localStorage.getItem("expirationDate");
     const now = new Date();
     const expirationAsDateObj = new Date(expirationDate); // karşılaştırmak için Date object 'e çevirmen lazım...
     if (now >= expirationAsDateObj) {
-      console.log('dolayısıyla if in çalışması ve logout olması lazım...');
+      console.log("dolayısıyla if in çalışması ve logout olması lazım...");
       commit(AUTH_LOGOUT);
       return;
     }
     // const userId = localStorage.getItem('userId');
-    dispatch('refreshToken');
+    dispatch("refreshToken");
   },
   refreshToken({ commit, dispatch }) {
     // mevcut token ile yeni token alan action bu
@@ -127,23 +127,23 @@ const actions = {
     if (token) {
       return new Promise((resolve, reject) => {
         apiCall
-          .post('/api/auth/refresh_token/', { token: token })
+          .post("/api/auth/refresh_token/", { token: token })
           .then(resp => {
             // token 'ı storage 'a yazıyoruz.
-            localStorage.setItem('user-token', resp.data.token);
+            localStorage.setItem("user-token", resp.data.token);
             const expirationDate = new Date(
               JwtDecode(resp.data.token).exp * 1000
             );
             // token expire süresini storage 'a yazıyoruz.
-            localStorage.setItem('expirationDate', expirationDate);
+            localStorage.setItem("expirationDate", expirationDate);
             commit(AUTH_SUCCESS, resp);
             dispatch(USER_REQUEST);
-            dispatch('setLogoutTimer', expirationDate); // bu sayede sürekli refresh olur.
+            dispatch("setLogoutTimer", expirationDate); // bu sayede sürekli refresh olur.
             resolve(resp);
           })
           .catch(err => {
             commit(AUTH_ERROR, err);
-            localStorage.removeItem('user-token');
+            localStorage.removeItem("user-token");
             console.log(err.response);
             reject(err);
           });
@@ -154,21 +154,21 @@ const actions = {
 
 const mutations = {
   [AUTH_REQUEST]: state => {
-    state.status = 'loading';
+    state.status = "loading";
   },
   [AUTH_SUCCESS]: (state, resp) => {
-    state.status = 'success';
+    state.status = "success";
     state.token = resp.data.token;
     state.hasLoadedOnce = true;
   },
   [AUTH_ERROR]: state => {
-    state.badLogin = 'true';
-    state.status = 'error';
+    state.badLogin = "true";
+    state.status = "error";
     state.hasLoadedOnce = true;
   },
   [AUTH_LOGOUT]: state => {
-    localStorage.removeItem('user-token');
-    state.token = '';
+    localStorage.removeItem("user-token");
+    state.token = "";
   }
 };
 
