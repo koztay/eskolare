@@ -1,82 +1,23 @@
 <template>
-  <div>
-    <!-- <v-navigation-drawer v-model="drawer" class="secondary" dark disable-resize-watcher>
+  <span>
+    <v-navigation-drawer app v-model="drawer" class="secondary" dark disable-resize-watcher>
       <v-list>
-        <v-list-title v-for="link in links" :key="link.text" router :to="link.route">
-          <v-list-title-action>
+        <v-list-tile v-for="link in links" :key="link.text" router :to="link.route">
+          <v-list-tile-action>
             <v-icon class="white--text">{{ link.icon }}</v-icon>
-          </v-list-title-action>
-          <v-list-content>
-            <v-list-title class="white--text">{{ link.text }}</v-list-title>
-          </v-list-content>
-        </v-list-title>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title class="white--text">{{ link.text }}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
       </v-list>
       <CategoryTree />
-    </v-navigation-drawer>-->
-
-    <v-navigation-drawer
-      app
-      v-model="drawer"
-      class="secondary"
-      dark
-      temporary
-      disable-resize-watcher
-    >
-      <v-list-item>
-        <v-list-item-content>
-          <v-list-item-title class="title">Application</v-list-item-title>
-          <v-list-item-subtitle>subtext</v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-divider></v-divider>
-
-      <v-list dense nav>
-        <v-list-item v-for="link in links" :key="link.text" router :to="link.route" link>
-          <v-list-item-icon>
-            <v-icon>{{ link.icon }}</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>{{ link.text }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
     </v-navigation-drawer>
-    <v-app-bar color="deep-purple accent-4" dark>
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-
-      <v-toolbar-title>ESKOLARE</v-toolbar-title>
-
-      <div class="flex-grow-1"></div>
-
-      <v-btn icon>
-        <v-icon>mdi-heart</v-icon>
-      </v-btn>
-
-      <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
-
-      <v-menu left bottom>
-        <template v-slot:activator="{ on }">
-          <v-btn icon v-on="on">
-            <v-icon>mdi-dots-vertical</v-icon>
-          </v-btn>
-        </template>
-
-        <v-list>
-          <v-list-item v-for="n in 5" :key="n" @click="() => {}">
-            <v-list-item-title>Option {{ n }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-    </v-app-bar>
-  </div>
-  <!-- <v-toolbar dark height="66" color="primary" class="hidden-sm-and-down">
+    <v-toolbar app dark height="66" color="primary" class="hidden-sm-and-down">
       <router-link :to="{ name: 'home'}">
         <v-toolbar-title class="text-uppercase white--text">
           <span class="font-weight-light">Eskolare</span>
+          <!-- <span>SE</span> -->
         </v-toolbar-title>
       </router-link>
       <v-spacer></v-spacer>
@@ -99,18 +40,18 @@
       <v-spacer></v-spacer>
       <div>
         <router-link :to="{ name: 'login'}">
-          <v-btn v-if="!auth" text color="white">
+          <v-btn v-if="!auth" flat color="white">
             <span>Login</span>
             <v-icon right>fas fa-sign-in-alt</v-icon>
           </v-btn>
         </router-link>
         <router-link :to="{ name: 'signup'}">
-          <v-btn v-if="!auth" text color="white">
+          <v-btn v-if="!auth" flat color="white">
             <span>Signup</span>
             <v-icon right>fas fa-user-plus</v-icon>
           </v-btn>
         </router-link>
-        <v-btn v-if="auth" text color="white" @click="logout">
+        <v-btn v-if="auth" flat color="white" @click="logout">
           <span>Logout</span>
           <v-icon right>fas fa-power-off</v-icon>
         </v-btn>
@@ -142,9 +83,9 @@
           <span>.com.br</span>
         </v-toolbar-title>
       </router-link>
-  </v-toolbar>-->
+    </v-toolbar>
+  </span>
 </template>
-
 
 <script>
 import { AUTH_LOGOUT } from "@/store/actions/auth";

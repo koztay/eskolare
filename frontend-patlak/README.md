@@ -1,4 +1,4 @@
-# frontend-eskolare
+# vue-client
 
 ## Project setup
 ```
