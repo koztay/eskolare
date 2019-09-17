@@ -60,7 +60,7 @@
         </div>
       </v-flex>
     </v-layout>-->
-    <v-card class="mx-auto" width="80%" outlined>
+    <v-card class="mx-auto mb-5" width="80%" outlined>
       <v-list-item three-line>
         <v-list-item-content>
           <div class="overline mb-4">USER DETAILS</div>

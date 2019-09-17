@@ -15,6 +15,10 @@ const mutations = {
 const actions = {
   fetchCategories() {
     return CategoryService.getCategories();
+  },
+  addCategory(_, data) {
+    console.log("bu amına goduğum datası neeeee", data);
+    return CategoryService.addCategory(data);
   }
 };
 
