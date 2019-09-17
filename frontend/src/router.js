@@ -1,12 +1,15 @@
-import Vue from 'vue';
-import Router from 'vue-router';
-import Home from './views/Home.vue';
-import CreatePost from './views/CreatePost.vue';
-import Login from './views/Login.vue';
-import Signup from './views/Signup.vue';
-import Account from '@/views/Account';
+import Vue from "vue";
+import Router from "vue-router";
+import Home from "./views/Home.vue";
+import CreatePost from "./views/CreatePost.vue";
+import Login from "./views/Login.vue";
+import Signup from "./views/Signup.vue";
+import Account from "@/views/Account";
+import ManageCategories from "@/views/ManageCategories";
+import ManageAuthors from "@/views/ManageAuthors";
+import ManageBooks from "@/views/ManageBooks";
 
-import store from './store';
+import store from "./store";
 
 Vue.use(Router);
 
@@ -15,58 +18,85 @@ const ifNotAuthenticated = (to, from, next) => {
     next();
     return;
   }
-  next('/');
+  next("/");
 };
 
 const ifAuthenticated = (to, from, next) => {
   if (store.getters.isAuthenticated) {
     next();
   } else {
-    next('/login/');
+    next("/login/");
+  }
+};
+
+const ifSuperUser = (to, from, next) => {
+  const profile = store.getters.getProfile;
+  if (profile.is_superuser) {
+    next();
+  } else {
+    next("/login/");
   }
 };
 
 export default new Router({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/',
-      name: 'home',
+      path: "/",
+      name: "home",
       component: Home
     },
     {
-      path: '/about/',
-      name: 'about',
+      path: "/about/",
+      name: "about",
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () =>
-        import(/* webpackChunkName: "about" */ './views/About.vue')
+        import(/* webpackChunkName: "about" */ "./views/About.vue")
     },
     {
-      path: '/account/',
-      name: 'account',
+      path: "/account/",
+      name: "account",
       component: Account,
       beforeEnter: ifAuthenticated
     },
     {
-      path: '/create-post/',
-      name: 'create-post',
+      path: "/create-post/",
+      name: "create-post",
       component: CreatePost,
       beforeEnter: ifAuthenticated
     },
     {
-      path: '/login/',
-      name: 'login',
+      path: "/login/",
+      name: "login",
       component: Login,
       beforeEnter: ifNotAuthenticated
     },
     {
-      path: '/signup/',
-      name: 'signup',
+      path: "/signup/",
+      name: "signup",
       component: Signup,
       beforeEnter: ifNotAuthenticated
+    },
+    {
+      path: "/manage-categories/",
+      name: "manage-categories",
+      component: ManageCategories,
+      beforeEnter: ifSuperUser
+    },
+    {
+      path: "/manage-authors/",
+      name: "manage-authors",
+      component: ManageAuthors,
+      beforeEnter: ifSuperUser
+    },
+    {
+      path: "/manage-books/",
+      name: "manage-books",
+      component: ManageBooks,
+      beforeEnter: ifSuperUser
     }
   ]
 });

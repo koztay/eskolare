@@ -18,15 +18,54 @@
       <v-divider></v-divider>
 
       <v-list dense nav>
-        <v-list-item v-for="link in links" :key="link.text" router :to="link.route" link>
+        <!-- <v-list-item v-for="link in links" :key="link.text" router :to="link.route" link>
           <v-list-item-icon>
             <v-icon>{{ link.icon }}</v-icon>
           </v-list-item-icon>
-
           <v-list-item-content>
             <v-list-item-title>{{ link.text }}</v-list-item-title>
           </v-list-item-content>
+        </v-list-item>-->
+        <v-list-item router :to="{name:'account'}" link>
+          <v-list-item-icon>
+            <v-icon>fas fa-user</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Account</v-list-item-title>
+          </v-list-item-content>
         </v-list-item>
+        <v-list-item router :to="{name:'manage-categories'}" link>
+          <v-list-item-icon>
+            <v-icon>fas fa-home</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Manage Categories</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item router :to="{name:'manage-authors'}" link>
+          <v-list-item-icon>
+            <v-icon>fas fa-home</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Manage Authors</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item router :to="{name:'manage-books'}" link>
+          <v-list-item-icon>
+            <v-icon>fas fa-home</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Manage Books</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <!-- <v-list-item router :to="{name:'home'}" link>
+          <v-list-item-icon>
+            <v-icon>fas fa-home</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Home</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>-->
       </v-list>
     </v-navigation-drawer>
     <v-app-bar color="primary" dark>
@@ -57,6 +96,24 @@
           </v-list-item>
         </v-list>
       </v-menu>
+      <div>
+        <router-link :to="{ name: 'login'}">
+          <v-btn v-if="!auth" text color="white">
+            <span>Login</span>
+            <v-icon right>fas fa-sign-in-alt</v-icon>
+          </v-btn>
+        </router-link>
+        <router-link :to="{ name: 'signup'}">
+          <v-btn v-if="!auth" text color="white">
+            <span>Signup</span>
+            <v-icon right>fas fa-user-plus</v-icon>
+          </v-btn>
+        </router-link>
+        <v-btn v-if="auth" text color="white" @click="logout">
+          <span>Logout</span>
+          <v-icon right>fas fa-power-off</v-icon>
+        </v-btn>
+      </div>
     </v-app-bar>
   </div>
   <!-- <v-toolbar dark height="66" color="primary" class="hidden-sm-and-down">
@@ -133,11 +190,13 @@
 
 
 <script>
+import { mapState } from "vuex";
 import { AUTH_LOGOUT } from "@/store/actions/auth";
 import CategoryTree from "@/components/CategoryTree";
 
 export default {
   name: "Navbar",
+  computed: mapState({ profile: state => state.user.profile }),
   data() {
     return {
       drawer: false,
@@ -176,4 +235,11 @@ export default {
   }
 };
 </script>
+
+<style>
+.toolbar-title {
+  color: white;
+  text-decoration: none;
+}
+</style>
 
