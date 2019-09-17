@@ -47,11 +47,12 @@
                 <v-btn color="primary" flat class="text-capitalize">Forgot Password</v-btn>
               </router-link>-->
               <router-link :to="{ name: 'signup'}">
-                <v-btn color="primary" flat class="text-capitalize">Signup</v-btn>
+                <v-btn color="primary" text class="text-capitalize">Signup</v-btn>
               </router-link>
               <v-btn
                 class="text-capitalize"
                 color="primary"
+                text
                 @click="login"
                 :disabled="submitButtonDisabled === true"
               >Login</v-btn>

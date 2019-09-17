@@ -64,9 +64,10 @@
                 <v-btn color="primary" flat class="text-capitalize">Forgot Password</v-btn>
               </router-link>-->
               <router-link :to="{ name: 'login'}">
-                <v-btn color="primary" flat class="text-capitalize">Login</v-btn>
+                <v-btn color="primary" text class="text-capitalize">Login</v-btn>
               </router-link>
               <v-btn
+                text
                 class="text-capitalize"
                 color="primary"
                 @click="signup"

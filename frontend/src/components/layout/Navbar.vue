@@ -1,19 +1,5 @@
 <template>
   <div>
-    <!-- <v-navigation-drawer v-model="drawer" class="secondary" dark disable-resize-watcher>
-      <v-list>
-        <v-list-title v-for="link in links" :key="link.text" router :to="link.route">
-          <v-list-title-action>
-            <v-icon class="white--text">{{ link.icon }}</v-icon>
-          </v-list-title-action>
-          <v-list-content>
-            <v-list-title class="white--text">{{ link.text }}</v-list-title>
-          </v-list-content>
-        </v-list-title>
-      </v-list>
-      <CategoryTree />
-    </v-navigation-drawer>-->
-
     <v-navigation-drawer
       app
       v-model="drawer"
@@ -24,8 +10,8 @@
     >
       <v-list-item>
         <v-list-item-content>
-          <v-list-item-title class="title">Application</v-list-item-title>
-          <v-list-item-subtitle>subtext</v-list-item-subtitle>
+          <v-list-item-title class="title">Book Catalog App</v-list-item-title>
+          <v-list-item-subtitle>for Eskolare Django Challenge</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
 
@@ -43,7 +29,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar color="deep-purple accent-4" dark>
+    <v-app-bar color="primary" dark>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-toolbar-title>ESKOLARE</v-toolbar-title>
