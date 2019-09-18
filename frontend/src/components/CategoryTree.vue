@@ -25,6 +25,7 @@
       <v-card-text>
         <v-treeview
           open-all
+          return-object
           ref="categoryTree"
           :items="this.categories"
           :search="search"
@@ -39,7 +40,7 @@
       </v-card-text>
       <div>
         <v-card-actions>
-          <v-btn text @click="addCategory">Add Category</v-btn>
+          <v-btn text v-if="this.selectedItems.length === 0" @click="addCategory">Add Category</v-btn>
           <v-btn
             text
             @click="editCategory"
@@ -53,13 +54,15 @@
         </v-card-actions>
       </div>
     </v-card>
-    <AddCategoryForm v-model="addCategoryDialog" />
+    <!-- <AddCategoryForm v-model="addCategoryDialog" /> -->
+    <CategoryForm v-model="categoryDialog" :headLine="this.headLine" />
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
-import AddCategoryForm from "../components/modal-forms/category/AddCategoryForm.vue";
+//  import AddCategoryForm from "../components/modal-forms/category/AddCategoryForm.vue";
+import CategoryForm from "../components/modal-forms/CategoryForm.vue";
 
 export default {
   data() {
@@ -71,11 +74,14 @@ export default {
       caseSensitive: false,
       openall: true,
       filteredCategories: [],
-      addCategoryDialog: false
+      // addCategoryDialog: false
+      categoryDialog: false,
+      headLine: ""
     };
   },
   components: {
-    AddCategoryForm
+    // AddCategoryForm
+    CategoryForm
   },
   methods: {
     itemSelected(evt) {
@@ -85,15 +91,30 @@ export default {
       } else {
         this.alertMessage = "";
       }
+      console.log(JSON.stringify(evt));
+      // console.log(JSON.stringify(evt));
+      if (this.selectedItems.length === 1) {
+        this.$store.dispatch(
+          "updateCategoryTitle",
+          this.selectedItems[0].title
+        );
+        this.$store.dispatch(
+          "updateParentCategoryId",
+          this.selectedItems[0].parent
+        );
+      }
     },
     addCategory() {
+      this.headLine = "Add Category";
       this.alertMessage = "";
       console.log("categoryTree ney => ", this.$refs.categoryTree.selection);
       this.$refs.categoryTree.selection = [];
       this.$refs.categoryTree.openall = true;
-      this.addCategoryDialog = true;
+      // this.addCategoryDialog = true;
+      this.categoryDialog = true;
     },
     editCategory() {
+      this.headLine = "Edit Category";
       if (this.selectedItems.length > 1) {
         this.alertMessage = "Cannot edit more than 1 item.";
       }
@@ -108,7 +129,11 @@ export default {
     this.$store.dispatch("fetchCategories");
   },
   computed: {
-    ...mapState({ categories: state => state.categories.categories }),
+    ...mapState(
+      { categories: state => state.categories.categories },
+      { selectedCategoryTitle: state => state.categories.categoryTitle },
+      { selectedParentCategoryId: state => state.categories.parentCategoryId }
+    ),
     filter() {
       return this.caseSensitive
         ? (item, search, textKey) => item[textKey].indexOf(search) > -1

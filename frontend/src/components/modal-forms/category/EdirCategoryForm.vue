@@ -3,7 +3,7 @@
     <v-dialog v-model="show" persistent max-width="600px">
       <v-card>
         <v-card-title>
-          <span class="headline">Add Category</span>
+          <span class="headline">Edit Category</span>
         </v-card-title>
         <v-card-text>
           <v-container>
@@ -75,13 +75,13 @@ export default {
     }
   },
   methods: {
-    addCategory() {
+    editCategory() {
       console.log(this.categoryTitle, this.parentCategoryId);
       const payload = {
         parent: this.parentCategoryId,
         title: this.categoryTitle
       };
-      this.$store.dispatch("addCategory", payload).then(() => {
+      this.$store.dispatch("editCategory", payload).then(() => {
         this.show = false;
       });
     }

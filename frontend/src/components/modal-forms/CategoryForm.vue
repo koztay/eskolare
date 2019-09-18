@@ -3,7 +3,7 @@
     <v-dialog v-model="show" persistent max-width="600px">
       <v-card>
         <v-card-title>
-          <span class="headline">Add Category</span>
+          <span class="headline">Add category</span>
         </v-card-title>
         <v-card-text>
           <v-container>
@@ -11,7 +11,7 @@
               <v-col cols="12">
                 <v-select
                   :items="flatCategories"
-                  v-model="parentCategoryId"
+                  :v-model="this.parentCategoryId"
                   item-text="title"
                   item-value="id"
                   label="Parent"
@@ -40,12 +40,14 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      categoryTitle: "",
-      parentCategoryId: null
+      // categoryTitle: "",
+      // parentCategoryId: null
     };
   },
   props: {
-    value: Boolean
+    value: Boolean,
+    headLine: String
+    // selectedCategory: Object
   },
   computed: {
     ...mapState({ categories: state => state.categories.categories }),
@@ -57,6 +59,33 @@ export default {
         this.$emit("input", value);
       }
     },
+    categoryTitle: {
+      get() {
+        console.log(
+          "categoryTitle ney",
+          this.$store.state.categories.categoryTitle
+        );
+        return this.$store.state.categories.categoryTitle;
+      },
+      set(value) {
+        console.log("categoryTitle set edilecek", value);
+        this.$store.dispatch("updateCategoryTitle", value);
+      }
+    },
+    parentCategoryId: {
+      get() {
+        console.log(
+          "categoryTitle ney",
+          this.$store.state.categories.parentCategoryId
+        );
+        return this.$store.state.categories.parentCategoryId;
+      },
+      set(value) {
+        console.log("parentCategoryId set edilecek", value);
+        this.$store.dispatch("updateParentCategoryId", value);
+      }
+    },
+
     flatCategories() {
       let flatten = [];
       const flattenCategory = category => {
@@ -84,7 +113,25 @@ export default {
       this.$store.dispatch("addCategory", payload).then(() => {
         this.show = false;
       });
+    },
+    editCategory() {
+      console.log("edit Category çalışacak");
     }
+  },
+  updated() {
+    console.log(
+      "form update oldu state kategori title => "
+      // this.state.categories.categoryTitle
+    );
+    console.log(
+      "form update oldu state kategori id => ",
+      this.selectedParentCategoryId
+    );
+    console.log("form update oldu kategori title => ", this.categoryTitle);
+    console.log(
+      "form update oldu parent kategori id => ",
+      this.parentCategoryId
+    );
   }
 };
 </script>
