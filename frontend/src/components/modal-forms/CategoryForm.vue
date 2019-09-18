@@ -104,10 +104,6 @@ export default {
       }
     },
     addCategory() {
-      const payload = {
-        parent: this.parentCategoryId,
-        title: this.categoryTitle
-      };
       this.$store.dispatch("addCategory", this.payload).then(() => {
         this.show = false;
       });

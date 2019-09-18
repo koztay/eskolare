@@ -1,3 +1,15 @@
 <template>
-  <div>Author Manager Page</div>
+  <div>
+    <Authors />
+  </div>
 </template>
+
+<script>
+import Authors from "../components/Authors.vue";
+
+export default {
+  components: {
+    Authors
+  }
+};
+</script>

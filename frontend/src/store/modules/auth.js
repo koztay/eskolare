@@ -61,7 +61,7 @@ const actions = {
           commit(AUTH_SUCCESS, resp);
           dispatch(USER_REQUEST);
           // login olunca timer 'ı çalıştırmamız lazım ki sürekli refresh etsin token'ı
-          dispatch("setLogoutTimer", expirationDate);
+          // dispatch("setLogoutTimer", expirationDate);
           resolve(resp);
         })
         .catch(err => {
@@ -89,7 +89,7 @@ const actions = {
           commit(AUTH_SUCCESS, resp);
           dispatch(USER_REQUEST);
           // login olunca timer 'ı çalıştırmamız lazım ki sürekli refresh etsin token'ı
-          dispatch("setLogoutTimer", expirationDate);
+          // dispatch("setLogoutTimer", expirationDate);
           resolve(resp);
         })
         .catch(err => {
@@ -138,7 +138,7 @@ const actions = {
             localStorage.setItem("expirationDate", expirationDate);
             commit(AUTH_SUCCESS, resp);
             dispatch(USER_REQUEST);
-            dispatch("setLogoutTimer", expirationDate); // bu sayede sürekli refresh olur.
+            // dispatch("setLogoutTimer", expirationDate); // bu sayede sürekli refresh olur.
             resolve(resp);
           })
           .catch(err => {

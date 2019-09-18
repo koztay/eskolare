@@ -30,10 +30,10 @@ const actions = {
   updateAuthor(_, data) {
     return AuthorService.updateAuthor(data);
   },
-  updateAuhtorname({ commit }, authorName) {
+  updateAuthorName({ commit }, authorName) {
     commit("setAuthorname", authorName);
   },
-  updateCategoryId({ commit }, authorId) {
+  updateAuthorId({ commit }, authorId) {
     commit("setAuthorId", authorId);
   }
 };
