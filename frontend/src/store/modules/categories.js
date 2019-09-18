@@ -28,11 +28,17 @@ const actions = {
   fetchCategories() {
     return CategoryService.getCategories();
   },
-  addCategory({ state }) {
-    return CategoryService.addCategory(state.categoryObject);
+  addCategory(_, data) {
+    return CategoryService.addCategory(data);
+  },
+  updateCategory(_, data) {
+    return CategoryService.updateCategory(data);
   },
   updateCategoryTitle({ commit }, categoryTitle) {
     commit("setCategoryTitle", categoryTitle);
+  },
+  updateCategoryId({ commit }, categoryId) {
+    commit("setCategoryId", categoryId);
   },
   updateParentCategoryId({ commit }, parentCategoryId) {
     commit("setParentCategoryId", parentCategoryId);

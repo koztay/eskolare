@@ -14,3 +14,9 @@ class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.filter(parent=None)
     # queryset = Category.objects.all()
     serializer_class = CategorySerializer
+
+    def get_queryset(self, *args, **kwargs):
+        category_pk = self.kwargs.get('pk')
+        if category_pk:
+            return Category.objects.filter(pk=category_pk)
+        return Category.objects.filter(parent=None)

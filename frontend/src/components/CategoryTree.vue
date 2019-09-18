@@ -98,12 +98,14 @@ export default {
           "updateCategoryTitle",
           this.selectedItems[0].title
         );
+        this.$store.dispatch("updateCategoryId", this.selectedItems[0].id);
         this.$store.dispatch(
           "updateParentCategoryId",
           this.selectedItems[0].parent
         );
       } else {
         this.$store.dispatch("updateCategoryTitle", null);
+        this.$store.dispatch("updateCategoryId", null);
         this.$store.dispatch("updateParentCategoryId", null);
       }
     },

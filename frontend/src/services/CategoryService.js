@@ -35,5 +35,23 @@ export default {
       .finally(() => {
         // store.commit("stopLoading");
       });
+  },
+  updateCategory(data) {
+    console.log("data gelmiş mi => ", data);
+    const url = `/api/categories/${data.id}/`;
+    console.log("url gelmiş mi => ", url);
+
+    return apiCall
+      .patch(url, data)
+      .then(res => {
+        console.log(res);
+        this.getCategories();
+      })
+      .catch(error => {
+        console.log("Error => ", error, "Data => ", error.response.data);
+      })
+      .finally(() => {
+        // store.commit("stopLoading");
+      });
   }
 };
