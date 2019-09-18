@@ -21,7 +21,7 @@ class BookViewSet(viewsets.ModelViewSet):
         "read_by": []
     }
     """
-
+    pagination_class = None
     permission_classes = (
         permissions.IsAuthenticatedOrReadOnly,
         IsAdminUserOrReadOnly
@@ -91,6 +91,7 @@ class BookViewSet(viewsets.ModelViewSet):
 
 
 class AuthorViewSet(viewsets.ModelViewSet):
+    pagination_class = None
     permission_classes = (
         permissions.IsAuthenticatedOrReadOnly,
         IsAdminUserOrReadOnly
@@ -100,6 +101,7 @@ class AuthorViewSet(viewsets.ModelViewSet):
 
 
 class ReviewViewSet(viewsets.ModelViewSet):
+    pagination_class = None
     permission_classes = (
         permissions.IsAuthenticatedOrReadOnly,
         IsOwnerOrReadOnly,

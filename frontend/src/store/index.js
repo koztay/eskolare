@@ -5,6 +5,7 @@ import Vuex from 'vuex';
 import user from './modules/user';
 import auth from './modules/auth';
 import categories from './modules/categories';
+import authors from './modules/authors';
 
 Vue.use(Vuex);
 
@@ -14,7 +15,8 @@ export default new Vuex.Store({
   modules: {
     user,
     auth,
-    categories
+    categories,
+    authors
   },
   strict: debug
 });
