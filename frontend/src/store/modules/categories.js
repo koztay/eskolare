@@ -2,7 +2,8 @@ import CategoryService from "@/services/CategoryService";
 
 const state = {
   categories: [],
-  categoryTitle: "", // this will be used for add or update category title
+  categoryTitle: null,
+  categoryId: null,
   parentCategoryId: null
 };
 
@@ -13,11 +14,12 @@ const mutations = {
     state.categories = categories;
   },
   setCategoryTitle: (state, categoryTitle) => {
-    console.log("setCategoryTitle mutation çalıştı =>", categoryTitle);
     state.categoryTitle = categoryTitle;
   },
+  setCategoryId: (state, categoryId) => {
+    state.categoryId = categoryId;
+  },
   setParentCategoryId: (state, parentCategoryId) => {
-    console.log("setParentCategoryId mutation çalıştı =>", parentCategoryId);
     state.parentCategoryId = parentCategoryId;
   }
 };
@@ -30,11 +32,9 @@ const actions = {
     return CategoryService.addCategory(state.categoryObject);
   },
   updateCategoryTitle({ commit }, categoryTitle) {
-    console.log("updateCategoryTitle action çalıştı =>", categoryTitle);
     commit("setCategoryTitle", categoryTitle);
   },
   updateParentCategoryId({ commit }, parentCategoryId) {
-    console.log("updateParentCategoryId action çalıştı =>", parentCategoryId);
     commit("setParentCategoryId", parentCategoryId);
   }
 };

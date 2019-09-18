@@ -102,6 +102,9 @@ export default {
           "updateParentCategoryId",
           this.selectedItems[0].parent
         );
+      } else {
+        this.$store.dispatch("updateCategoryTitle", null);
+        this.$store.dispatch("updateParentCategoryId", null);
       }
     },
     addCategory() {
@@ -118,6 +121,7 @@ export default {
       if (this.selectedItems.length > 1) {
         this.alertMessage = "Cannot edit more than 1 item.";
       }
+      this.categoryDialog = true;
     },
     deleteCategory() {
       if (this.selectedItems.length > 1) {

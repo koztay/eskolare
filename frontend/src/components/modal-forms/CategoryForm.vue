@@ -11,7 +11,7 @@
               <v-col cols="12">
                 <v-select
                   :items="flatCategories"
-                  :v-model="this.parentCategoryId"
+                  v-model="parentCategoryId"
                   item-text="title"
                   item-value="id"
                   label="Parent"
@@ -38,19 +38,20 @@
 import { mapState } from "vuex";
 
 export default {
-  data() {
-    return {
-      // categoryTitle: "",
-      // parentCategoryId: null
-    };
-  },
   props: {
     value: Boolean,
     headLine: String
-    // selectedCategory: Object
   },
   computed: {
-    ...mapState({ categories: state => state.categories.categories }),
+    //    ...mapState('some/nested/module', {
+    //   a: state => state.a,
+    //   b: state => state.b
+    // })
+    ...mapState({
+      categories: state => state.categories.categories,
+      stateCategoryTitle: state => state.categories.categoryTitle,
+      stateParentCategoryId: state => state.categories.parentCategoryId
+    }),
     show: {
       get() {
         return this.value;
@@ -61,27 +62,17 @@ export default {
     },
     categoryTitle: {
       get() {
-        console.log(
-          "categoryTitle ney",
-          this.$store.state.categories.categoryTitle
-        );
-        return this.$store.state.categories.categoryTitle;
+        return this.stateCategoryTitle;
       },
       set(value) {
-        console.log("categoryTitle set edilecek", value);
         this.$store.dispatch("updateCategoryTitle", value);
       }
     },
     parentCategoryId: {
       get() {
-        console.log(
-          "categoryTitle ney",
-          this.$store.state.categories.parentCategoryId
-        );
-        return this.$store.state.categories.parentCategoryId;
+        return this.stateParentCategoryId;
       },
       set(value) {
-        console.log("parentCategoryId set edilecek", value);
         this.$store.dispatch("updateParentCategoryId", value);
       }
     },
@@ -105,7 +96,6 @@ export default {
   },
   methods: {
     addCategory() {
-      console.log(this.categoryTitle, this.parentCategoryId);
       const payload = {
         parent: this.parentCategoryId,
         title: this.categoryTitle
@@ -119,19 +109,8 @@ export default {
     }
   },
   updated() {
-    console.log(
-      "form update oldu state kategori title => "
-      // this.state.categories.categoryTitle
-    );
-    console.log(
-      "form update oldu state kategori id => ",
-      this.selectedParentCategoryId
-    );
-    console.log("form update oldu kategori title => ", this.categoryTitle);
-    console.log(
-      "form update oldu parent kategori id => ",
-      this.parentCategoryId
-    );
+    console.log("this comes from updated =>", this.categoryTitle);
+    console.log("this comes from updated =>", this.parentCategoryId);
   }
 };
 </script>
