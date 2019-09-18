@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <v-alert
@@ -48,13 +47,34 @@
           >Edit Selected Author</v-btn>
           <v-btn
             text
-            @click="deleteAuthor"
+            @click="deleteAuthorConfirm"
             v-if="this.selectedItems.length === 1"
           >Delete Selected Author</v-btn>
         </v-card-actions>
       </div>
     </v-card>
     <AuthorForm v-model="authorDialog" :headLine="this.headLine" />
+    <v-dialog v-model="confirm" persistent max-width="600px">
+      <v-card>
+        <v-card-title>
+          <span class="headline">Delete</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-row>
+              <v-col cols="12">
+                <span>Are you sure, you want to delete author : {{this.stateAuthorName}} ?</span>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <div class="flex-grow-1"></div>
+          <v-btn color="blue darken-1" text @click="confirm = false">Cancel</v-btn>
+          <v-btn color="blue darken-1" text @click="deleteAuthor">Delete</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -73,7 +93,8 @@ export default {
       openall: true,
       filteredAuthors: [],
       authorDialog: false,
-      headLine: ""
+      headLine: "",
+      confirm: false
     };
   },
   components: {
@@ -107,10 +128,18 @@ export default {
       }
       this.authorDialog = true;
     },
-    deleteAuthor() {
+    deleteAuthorConfirm() {
       if (this.selectedItems.length > 1) {
         this.alertMessage = "Cannot delete more than 1 item.";
       }
+      this.confirm = true;
+    },
+    deleteAuthor() {
+      this.$store
+        .dispatch("deleteAuthor", { id: this.stateAuthorId })
+        .then(() => {
+          this.confirm = false;
+        });
     }
   },
   created() {

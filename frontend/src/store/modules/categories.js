@@ -34,6 +34,9 @@ const actions = {
   updateCategory(_, data) {
     return CategoryService.updateCategory(data);
   },
+  deleteCategory(_, data) {
+    return CategoryService.deleteCategory(data);
+  },
   updateCategoryTitle({ commit }, categoryTitle) {
     commit("setCategoryTitle", categoryTitle);
   },

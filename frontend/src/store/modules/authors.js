@@ -30,6 +30,9 @@ const actions = {
   updateAuthor(_, data) {
     return AuthorService.updateAuthor(data);
   },
+  deleteAuthor(_, data) {
+    return AuthorService.deleteAuthor(data);
+  },
   updateAuthorName({ commit }, authorName) {
     commit("setAuthorname", authorName);
   },

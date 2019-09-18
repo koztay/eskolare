@@ -48,7 +48,7 @@
           >Edit Selected Category</v-btn>
           <v-btn
             text
-            @click="deleteCategory"
+            @click="deleteCategoryConfirm"
             v-if="this.selectedItems.length === 1"
           >Delete Selected Category</v-btn>
         </v-card-actions>
@@ -56,6 +56,27 @@
     </v-card>
     <!-- <AddCategoryForm v-model="addCategoryDialog" /> -->
     <CategoryForm v-model="categoryDialog" :headLine="this.headLine" />
+    <v-dialog v-model="confirm" persistent max-width="600px">
+      <v-card>
+        <v-card-title>
+          <span class="headline">Delete</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-row>
+              <v-col cols="12">
+                <span>Are you sure, you want to delete category : {{this.stateCategoryTitle}} ?</span>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <div class="flex-grow-1"></div>
+          <v-btn color="blue darken-1" text @click="confirm = false">Cancel</v-btn>
+          <v-btn color="blue darken-1" text @click="deleteCategory">Delete</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -76,7 +97,8 @@ export default {
       filteredCategories: [],
       // addCategoryDialog: false
       categoryDialog: false,
-      headLine: ""
+      headLine: "",
+      confirm: false
     };
   },
   components: {
@@ -126,20 +148,29 @@ export default {
       this.categoryDialog = true;
     },
     deleteCategory() {
+      this.$store
+        .dispatch("deleteCategory", { id: this.stateCategoryId })
+        .then(() => {
+          this.confirm = false;
+        });
+    },
+    deleteCategoryConfirm() {
       if (this.selectedItems.length > 1) {
         this.alertMessage = "Cannot delete more than 1 item.";
       }
+      this.confirm = true;
     }
   },
   created() {
     this.$store.dispatch("fetchCategories");
   },
   computed: {
-    ...mapState(
-      { categories: state => state.categories.categories },
-      { selectedCategoryTitle: state => state.categories.categoryTitle },
-      { selectedParentCategoryId: state => state.categories.parentCategoryId }
-    ),
+    ...mapState({
+      categories: state => state.categories.categories,
+      stateCategoryTitle: state => state.categories.categoryTitle,
+      stateParentCategoryId: state => state.categories.parentCategoryId,
+      stateCategoryId: state => state.categories.categoryId
+    }),
     filter() {
       return this.caseSensitive
         ? (item, search, textKey) => item[textKey].indexOf(search) > -1

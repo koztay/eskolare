@@ -76,7 +76,6 @@ export default {
       });
     },
     updateAuthor() {
-      console.log("edit Author çalışacak");
       this.$store.dispatch("updateAuthor", this.payload).then(() => {
         this.show = false;
       });
