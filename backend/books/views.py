@@ -29,7 +29,7 @@ class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
-    @action(detail=True, methods=['put'], permission_classes=[permissions.IsAuthenticated], url_path='add-to-read-list')
+    @action(detail=True, methods=['patch'], permission_classes=[permissions.IsAuthenticated], url_path='add-to-read-list')
     def add_to_read_list(self, request, pk=None):
         book = self.get_object()
         book.read_by.add(request.user)
