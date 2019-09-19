@@ -27,7 +27,7 @@
           </v-tooltip>
           <v-tooltip top>
             <template v-slot:activator="{ on }">
-              <v-btn color="primary" dark v-on="on" icon @click="editBook(book)">
+              <v-btn color="primary" dark v-on="on" icon @click="editImage(book)">
                 <v-icon>fa-image</v-icon>
               </v-btn>
             </template>
@@ -35,7 +35,7 @@
           </v-tooltip>
           <v-tooltip top>
             <template v-slot:activator="{ on }">
-              <v-btn color="primary" dark v-on="on" icon>
+              <v-btn color="primary" dark v-on="on" icon @click="setCategories(book)">
                 <v-icon>fa-book</v-icon>
               </v-btn>
             </template>
@@ -43,7 +43,7 @@
           </v-tooltip>
           <v-tooltip top>
             <template v-slot:activator="{ on }">
-              <v-btn color="primary" dark v-on="on" icon>
+              <v-btn color="primary" dark v-on="on" icon @click="setAuthors(book)">
                 <v-icon>fa-user</v-icon>
               </v-btn>
             </template>
@@ -73,8 +73,11 @@ export default {
     editBook(book) {
       this.$emit("editClicked", book);
     },
-    setSelectedBook() {
-      this.$store.dispatch("fetchBooks");
+    setCategories(book) {
+      this.$emit("setCategoriesClicked", book);
+    },
+    setAuthors(book) {
+      this.$emit("setAuthorsClicked", book);
     }
   }
 };

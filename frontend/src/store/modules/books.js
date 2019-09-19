@@ -60,6 +60,12 @@ const actions = {
   },
   setBookImage({ commit }, bookImage) {
     commit("setBookImage", bookImage);
+  },
+  setCategories(_, data) {
+    return BookService.setCategories(data);
+  },
+  setAuthors(_, data) {
+    return BookService.setAuthors(data);
   }
 };
 

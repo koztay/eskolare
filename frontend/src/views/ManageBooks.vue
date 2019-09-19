@@ -13,10 +13,14 @@
           :book="book"
           :key="book.id"
           @editClicked="editBook(book)"
+          @setCategoriesClicked="setCategories(book)"
+          @setAuthorsClicked="setAuthors(book)"
         ></BookListItem>
       </v-row>
     </v-container>
     <BookForm v-model="bookDialog" :headLine="this.headLine" />
+    <BookCategoryForm v-model="categoryDialog" :headLine="this.headLine" :book="this.book" />
+    <!-- <BookAuthorForm v-model="authorDialog" :headLine="this.headLine" /> -->
   </div>
 </template>
 
@@ -24,15 +28,20 @@
 import { mapState } from "vuex";
 import BookListItem from "../components/BookListItem";
 import BookForm from "../components/modal-forms/BookForm";
+import BookCategoryForm from "../components/modal-forms/BookCategoryForm";
 
 export default {
   data: () => ({
     bookDialog: false,
-    headLine: ""
+    categoryDialog: false,
+    authorDialog: false,
+    headLine: "",
+    book: null
   }),
   components: {
     BookListItem,
-    BookForm
+    BookForm,
+    BookCategoryForm
   },
   computed: {
     ...mapState({
@@ -45,11 +54,22 @@ export default {
     addBook() {
       this.headLine = "Add Book";
       this.alertMessage = "";
+      this.setSelectedBook({ id: null, title: null, description: null });
       this.bookDialog = true;
     },
     editBook(book) {
+      this.headLine = "Edit Book";
       this.setSelectedBook(book);
       this.bookDialog = true;
+    },
+    setCategories(book) {
+      this.book = book;
+      this.setSelectedBook(book);
+      this.categoryDialog = true;
+    },
+    setAuthors(book) {
+      this.setSelectedBook(book);
+      this.authorDialog = true;
     },
     setSelectedBook(book) {
       this.$store.dispatch("updateBookId", book.id);

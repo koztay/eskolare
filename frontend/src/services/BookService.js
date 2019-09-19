@@ -71,5 +71,35 @@ export default {
       .finally(() => {
         // store.commit("stopLoading");
       });
+  },
+  setCategories(data) {
+    const url = `/api/books/${data.id}/set-categories/`;
+    return apiCall
+      .post(url, data)
+      .then(res => {
+        console.log(res);
+        this.getBooks();
+      })
+      .catch(error => {
+        console.log("Error => ", error, "Data => ", error.response.data);
+      })
+      .finally(() => {
+        // store.commit("stopLoading");
+      });
+  },
+  setAuthors(data) {
+    const url = `/api/books/${data.id}/set-authors/`;
+    return apiCall
+      .post(url, data)
+      .then(res => {
+        console.log(res);
+        this.getBooks();
+      })
+      .catch(error => {
+        console.log("Error => ", error, "Data => ", error.response.data);
+      })
+      .finally(() => {
+        // store.commit("stopLoading");
+      });
   }
 };
