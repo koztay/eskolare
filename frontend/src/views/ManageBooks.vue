@@ -1,31 +1,12 @@
 <template>
   <div>
-    <!-- <v-container grid-list-md text-xs-center>
-      <v-layout row wrap>
-        <v-flex style="width: 1000px;">
-          <v-card color="grey lighten-2">
-            <v-fab-transition>
-              <v-btn color="primary" dark absolute top right fab @click="addBook">
-                <v-icon>fa-plus</v-icon>
-              </v-btn>
-            </v-fab-transition>
-            <v-row no-gutters>
-              <v-col cols="3">
-                <BookListItem v-for="book in books" :book="book" :key="book.id"></BookListItem>
-              </v-col>
-            </v-row>
-          </v-card>
-        </v-flex>
-      </v-layout>
-    </v-container>
-    <BookForm v-model="bookDialog" :headLine="this.headLine" />-->
-
     <v-container class="grey lighten-5">
       <v-fab-transition>
         <v-btn color="primary" class="add-button" dark top absolute right fab @click="addBook">
           <v-icon>fa-plus</v-icon>
         </v-btn>
       </v-fab-transition>
+      <span class="display-1">Avaliable Books :</span>
       <v-row no-gutters>
         <BookListItem v-for="book in books" :book="book" :key="book.id"></BookListItem>
       </v-row>
@@ -67,7 +48,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .add-button {
   margin-top: 100px;
 }

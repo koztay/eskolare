@@ -1,6 +1,6 @@
 <template>
   <v-col cols="3">
-    <v-card max-width="344" class="pa-2 ma-5" outlined tile>
+    <v-card max-width="344" class="pa-2 ma-1" outlined tile>
       <v-list-item>
         <v-list-item-avatar color="grey"></v-list-item-avatar>
         <v-list-item-content>
