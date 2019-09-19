@@ -6,9 +6,14 @@
           <v-icon>fa-plus</v-icon>
         </v-btn>
       </v-fab-transition>
-      <span class="display-1">Avaliable Books :</span>
+      <span class="display-1">Available Books :</span>
       <v-row no-gutters>
-        <BookListItem v-for="book in books" :book="book" :key="book.id"></BookListItem>
+        <BookListItem
+          v-for="book in books"
+          :book="book"
+          :key="book.id"
+          @editClicked="editBook(book)"
+        ></BookListItem>
       </v-row>
     </v-container>
     <BookForm v-model="bookDialog" :headLine="this.headLine" />
@@ -22,7 +27,8 @@ import BookForm from "../components/modal-forms/BookForm";
 
 export default {
   data: () => ({
-    bookDialog: false
+    bookDialog: false,
+    headLine: ""
   }),
   components: {
     BookListItem,
@@ -40,6 +46,17 @@ export default {
       this.headLine = "Add Book";
       this.alertMessage = "";
       this.bookDialog = true;
+    },
+    editBook(book) {
+      console.log("Edit Book clicked => ", book);
+      this.setSelectedBook(book);
+      this.bookDialog = true;
+    },
+    setSelectedBook(book) {
+      console.log("book data geliyor mu ki? =>", book);
+      this.$store.dispatch("updateBookId", book.id);
+      this.$store.dispatch("updateBookTitle", book.title);
+      this.$store.dispatch("updateBookDescription", book.description);
     }
   },
   created() {

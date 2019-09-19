@@ -14,28 +14,64 @@
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
-
-      <v-img :src="book.image" contain></v-img>
-
-      <!-- <v-card-text>{{book.description}}</v-card-text> -->
-
+      <v-img v-if="book.image" :src="book.image" contain></v-img>
       <v-card-actions>
-        <v-btn text color="deep-purple accent-4">Read</v-btn>
-        <v-btn text color="deep-purple accent-4">Bookmark</v-btn>
+        <div v-if="profile.is_staff">
+          <v-tooltip top>
+            <template v-slot:activator="{ on }">
+              <v-btn color="primary" dark v-on="on" icon @click="editBook(book)">
+                <v-icon>fa-edit</v-icon>
+              </v-btn>
+            </template>
+            <span>Edit Book</span>
+          </v-tooltip>
+          <v-tooltip top>
+            <template v-slot:activator="{ on }">
+              <v-btn color="primary" dark v-on="on" icon>
+                <v-icon>fa-book</v-icon>
+              </v-btn>
+            </template>
+            <span>Edit Categories</span>
+          </v-tooltip>
+          <v-tooltip top>
+            <template v-slot:activator="{ on }">
+              <v-btn color="primary" dark v-on="on" icon>
+                <v-icon>fa-user</v-icon>
+              </v-btn>
+            </template>
+            <span>Edit Authors</span>
+          </v-tooltip>
+        </div>
+        <div v-else>
+          <v-btn text color="deep-purple accent-4">Read</v-btn>
+          <v-btn text color="deep-purple accent-4">Bookmark</v-btn>
+        </div>
         <div class="flex-grow-1"></div>
-        <v-btn icon>
-          <v-icon>mdi-heart</v-icon>
-        </v-btn>
-        <v-btn icon>
-          <v-icon>mdi-share-variant</v-icon>
-        </v-btn>
       </v-card-actions>
     </v-card>
   </v-col>
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
-  props: ["book"]
+  props: ["book"],
+  computed: {
+    ...mapState({
+      profile: state => state.user.profile
+      // stateBookTitle: state => state.books.bookTitle,
+      // stateBookDescription: state => state.books.stateBookDescription,
+      // stateBookId: state => state.books.bookId
+    })
+  },
+  methods: {
+    editBook(book) {
+      console.log(JSON.stringify(book));
+      this.$emit("editClicked", book);
+    },
+    setSelectedBook() {
+      this.$store.dispatch("fetchBooks");
+    }
+  }
 };
 </script>
