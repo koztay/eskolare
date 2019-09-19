@@ -48,12 +48,10 @@ export default {
       this.bookDialog = true;
     },
     editBook(book) {
-      console.log("Edit Book clicked => ", book);
       this.setSelectedBook(book);
       this.bookDialog = true;
     },
     setSelectedBook(book) {
-      console.log("book data geliyor mu ki? =>", book);
       this.$store.dispatch("updateBookId", book.id);
       this.$store.dispatch("updateBookTitle", book.title);
       this.$store.dispatch("updateBookDescription", book.description);

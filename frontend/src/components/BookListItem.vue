@@ -27,11 +27,19 @@
           </v-tooltip>
           <v-tooltip top>
             <template v-slot:activator="{ on }">
+              <v-btn color="primary" dark v-on="on" icon @click="editBook(book)">
+                <v-icon>fa-image</v-icon>
+              </v-btn>
+            </template>
+            <span>Add/Edit Image</span>
+          </v-tooltip>
+          <v-tooltip top>
+            <template v-slot:activator="{ on }">
               <v-btn color="primary" dark v-on="on" icon>
                 <v-icon>fa-book</v-icon>
               </v-btn>
             </template>
-            <span>Edit Categories</span>
+            <span>Add/Edit Categories</span>
           </v-tooltip>
           <v-tooltip top>
             <template v-slot:activator="{ on }">
@@ -39,7 +47,7 @@
                 <v-icon>fa-user</v-icon>
               </v-btn>
             </template>
-            <span>Edit Authors</span>
+            <span>Add/Edit Authors</span>
           </v-tooltip>
         </div>
         <div v-else>
@@ -59,14 +67,10 @@ export default {
   computed: {
     ...mapState({
       profile: state => state.user.profile
-      // stateBookTitle: state => state.books.bookTitle,
-      // stateBookDescription: state => state.books.stateBookDescription,
-      // stateBookId: state => state.books.bookId
     })
   },
   methods: {
     editBook(book) {
-      console.log(JSON.stringify(book));
       this.$emit("editClicked", book);
     },
     setSelectedBook() {
