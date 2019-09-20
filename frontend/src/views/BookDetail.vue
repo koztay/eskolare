@@ -3,29 +3,29 @@
     <v-card width="80%" class="mx-auto">
       <v-row class="py-4 pl-4 ma-5">
         <v-col class="shrink">
-          <v-img contain src="https://cdn.vuetifyjs.com/images/cards/store.jpg"></v-img>
+          <!-- <v-img contain src="https://cdn.vuetifyjs.com/images/cards/store.jpg"></v-img> -->
+          <v-img width="400" contain v-if="book.image" :src="book.image"></v-img>
         </v-col>
         <v-col>
           <v-card-text>
             <div class="headline mb-2">{{this.book.title}}</div>
-            <v-list-item-subtitle>
+            <v-container class="pa-0">
               by
               <span v-for="(author, index) in booksAuthors" :key="author.id">
                 <span>{{author.name}}</span>
                 <span v-if="index+1 < booksAuthors.length">,&nbsp;</span>
               </span>
-            </v-list-item-subtitle>
-            <v-list-item-subtitle>
+            </v-container>
+            <v-container class="pa-0">
               categories :
-              <!-- <span v-for="(author, index) in booksAuthors" :key="author.id">
-              <span>{{author.name}}</span>
-              <span v-if="index+1 < booksAuthors.length">,&nbsp;</span>
-              </span>-->
-              Django, Backend Development
-            </v-list-item-subtitle>
+              <span v-for="(category, index) in flatCategories" :key="category.id">
+                <span>{{category.title}}</span>
+                <span v-if="index+1 < flatCategories.length">,&nbsp;</span>
+              </span>
+            </v-container>
           </v-card-text>
           <v-container class="pa-0">
-            <v-card-text>Visit ten places on our planet that are undergoing the biggest changes today.</v-card-text>
+            <v-card-text>{{this.book.description}}</v-card-text>
           </v-container>
         </v-col>
       </v-row>
@@ -107,13 +107,31 @@ export default {
     ...mapState({
       profile: state => state.user.profile,
       book: state => state.books.book,
-      authors: state => state.authors.authors
+      authors: state => state.authors.authors,
+      categories: state => state.categories.categories
     }),
     booksAuthors() {
       var filtered = this.authors.filter(author => {
         return this.book.authors.indexOf(author.id) > -1;
       });
       return filtered;
+    },
+    flatCategories() {
+      // move this method to book detail for listing categories.
+      let flatten = [];
+      const flattenCategory = category => {
+        let flatCategory = { id: category.id, title: category.title };
+        flatten.push(flatCategory);
+        if (category.children.length > 0) {
+          category.children.forEach(element => {
+            flattenCategory(element);
+          });
+        }
+      };
+      this.categories.forEach(element => {
+        flattenCategory(element);
+      });
+      return flatten;
     }
   },
   methods: {

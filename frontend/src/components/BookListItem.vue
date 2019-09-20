@@ -71,32 +71,13 @@ export default {
   computed: {
     ...mapState({
       profile: state => state.user.profile,
-      authors: state => state.authors.authors,
-      categories: state => state.categories.categories // delete this after moving flatten categories.
+      authors: state => state.authors.authors
     }),
     booksAuthors() {
       var filtered = this.authors.filter(author => {
         return this.book.authors.indexOf(author.id) > -1;
       });
       return filtered;
-    },
-
-    flatCategories() {
-      // move this method to book detail for listing categories.
-      let flatten = [];
-      const flattenCategory = category => {
-        let flatCategory = { id: category.id, title: category.title };
-        flatten.push(flatCategory);
-        if (category.children.length > 0) {
-          category.children.forEach(element => {
-            flattenCategory(element);
-          });
-        }
-      };
-      this.categories.forEach(element => {
-        flattenCategory(element);
-      });
-      return flatten;
     }
   },
   methods: {
