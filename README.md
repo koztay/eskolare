@@ -25,3 +25,5 @@ $ docker-compose -f local.yml run django python manage.py createsuperuser
 - Login as standard user to test other features (review etc.)
 
 ## Deployment workflow steps for VPS (Ubuntu 18.04 with root access on DigitalOcean or Linode etc.):
+
+- `sh ssh-copy-id root@<IP-ADDRESS-OF-VPS>`
