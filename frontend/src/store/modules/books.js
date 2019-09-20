@@ -9,6 +9,7 @@ import BookService from "@/services/BookService";
 // "read_by": []
 
 const state = {
+  book: null,
   books: [],
   bookId: null,
   bookTitle: null,
@@ -21,6 +22,9 @@ const getters = {};
 const mutations = {
   setBooks: (state, books) => {
     state.books = books;
+  },
+  setBook: (state, book) => {
+    state.book = book;
   },
   setBookId: (state, bookId) => {
     state.bookId = bookId;
@@ -39,6 +43,10 @@ const mutations = {
 const actions = {
   fetchBooks() {
     return BookService.getBooks();
+  },
+  fetchBook(_, bookId) {
+    console.log("buraya kadar data gelmiş mi", bookId);
+    return BookService.getBook(bookId);
   },
   addBook(_, data) {
     return BookService.addBook(data);

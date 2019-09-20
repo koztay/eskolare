@@ -4,7 +4,9 @@
       <v-list-item>
         <v-list-item-avatar color="grey"></v-list-item-avatar>
         <v-list-item-content>
-          <v-list-item-title class="headline">{{book.title}}</v-list-item-title>
+          <router-link :to="{ name: 'book-detail', params: { id: book.id }}">
+            <v-list-item-title class="headline">{{book.title}}</v-list-item-title>
+          </router-link>
           <v-list-item-subtitle>
             by
             <span v-for="(author, index) in booksAuthors" :key="author.id">
@@ -14,7 +16,9 @@
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
-      <v-img v-if="book.image" :src="book.image" contain></v-img>
+      <router-link :to="{ name: 'book-detail', params: { id: book.id }}">
+        <v-img v-if="book.image" :src="book.image" contain></v-img>
+      </router-link>
       <v-card-actions>
         <div v-if="profile.is_staff">
           <v-tooltip top>

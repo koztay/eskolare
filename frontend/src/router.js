@@ -102,7 +102,8 @@ export default new Router({
     {
       path: "/books/:id",
       name: "book-detail",
-      component: BookDetail
+      component: BookDetail,
+      props: route => ({ bookId: route.params.id })
     }
   ]
 });

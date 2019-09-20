@@ -20,6 +20,24 @@ export default {
         // store.commit("stopLoading");
       });
   },
+  getBook(bookId) {
+    // store.commit("startLoading");
+    const url = `/api/books/${bookId}/`;
+    console.log("url ney amk => ", url);
+    return apiCall
+      .get(url)
+      .then(response => {
+        const data = response.data;
+        console.log(JSON.stringify(data));
+        store.commit("setBook", data);
+      })
+      .catch(error => {
+        console.log("Error => ", error, "Data => ", error.response.data);
+      })
+      .finally(() => {
+        // store.commit("stopLoading");
+      });
+  },
   addBook(data) {
     console.log("data gelmiş mi => ", data);
     const url = `/api/books/`;
