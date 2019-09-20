@@ -154,5 +154,21 @@ export default {
       .finally(() => {
         // store.commit("stopLoading");
       });
+  },
+  submitReview(data) {
+    const url = `/api/reviews/`;
+    return apiCall
+      .post(url, data)
+      .then(response => {
+        const data = response.data;
+        console.log(JSON.stringify(data));
+        this.getBooks();
+      })
+      .catch(error => {
+        console.log("Error => ", error, "Data => ", error.response.data);
+      })
+      .finally(() => {
+        // store.commit("stopLoading");
+      });
   }
 };

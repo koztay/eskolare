@@ -68,6 +68,9 @@ const actions = {
     console.log("gelen data ney ? ", data);
     return BookService.uploadImage(data);
   },
+  submitReview(_, data) {
+    return BookService.submitReview(data);
+  },
   updateBookId({ commit }, bookId) {
     commit("setBookId", bookId);
   },

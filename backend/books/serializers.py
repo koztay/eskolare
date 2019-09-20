@@ -1,8 +1,11 @@
-from rest_framework import serializers
 from categories.api.serializers import CategorySerializer
 from categories.models import Category
+from django.contrib.auth import get_user_model
+from rest_framework import serializers
 
 from . import models
+
+User = get_user_model()
 
 
 class AuthorSerializer(serializers.ModelSerializer):
@@ -15,10 +18,15 @@ class AuthorSerializer(serializers.ModelSerializer):
 
 class ReviewSerializer(serializers.ModelSerializer):
     """Serializer for reviews"""
+    username = serializers.SerializerMethodField()
+
     class Meta:
         model = models.Review
-        fields = ('id', 'review', 'book')
-        read_only_fields = ('id', 'book')
+        fields = ('id', 'review', 'book', 'username', 'user')
+        read_only_fields = ('id',)
+
+    def get_username(self, obj):
+        return obj.user.username
 
 
 class BookSerializer(serializers.ModelSerializer):

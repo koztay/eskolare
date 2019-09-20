@@ -29,19 +29,30 @@
           <v-container class="pa-0">
             <v-card-text>{{bookDetail.description}}</v-card-text>
           </v-container>
-        </v-col>
-      </v-row>
-      <v-card-actions>
-        <div>
           <v-btn
             text
             color="primary"
             @click="addToReadList"
             :disabled="readByMe"
           >{{this.readByMe ? "You Read This Book": "Add to My Read List" }}</v-btn>
-        </div>
-        <div class="flex-grow-1"></div>
-      </v-card-actions>
+        </v-col>
+      </v-row>
+      <v-divider class="mx-4"></v-divider>
+      <v-container v-if="!reviewedByMe">
+        <v-textarea auto-grow v-model="review" label="Add your review"></v-textarea>
+        <v-btn class="ma-2" outlined color="primary" @click="submitReview">Submit Your Review</v-btn>
+      </v-container>
+      <v-container v-if="bookDetail.reviews">
+        <v-card v-for="review in bookDetail.reviews" :key="review.id" class="mx-auto" outlined>
+          <v-list-item>
+            <v-list-item-content>
+              <div class="overline mb-4">review by : {{review.username}}</div>
+              <!-- <v-list-item-title class="headline mb-1">Headline 5</v-list-item-title> -->
+              <div>{{review.review}}</div>
+            </v-list-item-content>
+          </v-list-item>
+        </v-card>
+      </v-container>
     </v-card>
   </div>
 </template>
@@ -50,7 +61,9 @@
 import { mapState, mapGetters } from "vuex";
 
 export default {
-  data: () => ({}),
+  data: () => ({
+    review: ""
+  }),
   components: {},
   props: ["bookId"],
   computed: {
@@ -93,12 +106,30 @@ export default {
     },
     readByMe() {
       return this.bookDetail.read_by.indexOf(this.profile.pk) > -1;
+    },
+    reviewedByMe() {
+      if (this.bookDetail.reviews) {
+        const bookReviewsByMe = this.bookDetail.reviews.find(
+          review => review.user === this.profile.pk
+        );
+        return !!bookReviewsByMe;
+      } else {
+        return false;
+      }
     }
   },
   methods: {
     addToReadList() {
       this.$store.dispatch("addToReadList", this.bookId);
       console.log("booksAuthors  => ", this.bookAuthors);
+    },
+    submitReview() {
+      const payload = {
+        user: this.profile.pk,
+        book: this.bookId,
+        review: this.review
+      };
+      this.$store.dispatch("submitReview", payload);
     }
   },
   created() {
@@ -109,6 +140,7 @@ export default {
   updated() {
     console.log("bookDetail", this.bookDetail);
     console.log("profile", JSON.stringify(this.profile));
+    console.log("reviewdByMe", JSON.stringify(this.reviewdByMe));
   }
 };
 </script>
