@@ -17,7 +17,11 @@ const state = {
   bookImage: null
 };
 
-const getters = {};
+const getters = {
+  bookDetail: state => {
+    return state.books.find(book => book.id === state.bookId);
+  }
+};
 
 const mutations = {
   setBooks: (state, books) => {
@@ -45,7 +49,6 @@ const actions = {
     return BookService.getBooks();
   },
   fetchBook(_, bookId) {
-    console.log("buraya kadar data gelmiş mi", bookId);
     return BookService.getBook(bookId);
   },
   addBook(_, data) {
@@ -56,6 +59,10 @@ const actions = {
   },
   deleteBook(_, data) {
     return BookService.deleteBook(data);
+  },
+  addToReadList(_, bookId) {
+    console.log("bookId add to readlis için geliyor mu? ", bookId);
+    return BookService.addToReadList(bookId);
   },
   uploadImage(_, data) {
     console.log("gelen data ney ? ", data);

@@ -5,12 +5,12 @@ export default {
   getBooks() {
     // store.commit("startLoading");
     const url = `/api/books/`;
-
+    console.log("fetchBooks çalışıyor mu?");
     return apiCall
       .get(url)
       .then(response => {
         const data = response.data;
-        console.log(JSON.stringify(data));
+        // console.log(JSON.stringify(data));
         store.commit("setBooks", data);
       })
       .catch(error => {
@@ -129,6 +129,23 @@ export default {
       .then(res => {
         console.log("post başarılı :", res);
         this.getBooks();
+      })
+      .catch(error => {
+        console.log("Error => ", error, "Data => ", error.response.data);
+      })
+      .finally(() => {
+        // store.commit("stopLoading");
+      });
+  },
+  addToReadList(bookId) {
+    // store.commit("startLoading");
+    const url = `/api/books/${bookId}/add-to-read-list/`;
+    console.log("url ney amk => ", url);
+    return apiCall
+      .patch(url)
+      .then(response => {
+        const data = response.data;
+        console.log(JSON.stringify(data));
       })
       .catch(error => {
         console.log("Error => ", error, "Data => ", error.response.data);

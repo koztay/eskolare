@@ -39,6 +39,15 @@ const ifSuperUser = (to, from, next) => {
   }
 };
 
+const ifDirectBrowse = (to, from, next) => {
+  console.log("amına koduğumu fromu ney =>", from);
+  if (from.name) {
+    next();
+  } else {
+    next("/");
+  }
+};
+
 export default new Router({
   mode: "history",
   base: process.env.BASE_URL,
@@ -103,7 +112,8 @@ export default new Router({
       path: "/books/:id",
       name: "book-detail",
       component: BookDetail,
-      props: route => ({ bookId: route.params.id })
+      props: route => ({ bookId: route.params.id }),
+      beforeEnter: ifDirectBrowse
     }
   ]
 });
