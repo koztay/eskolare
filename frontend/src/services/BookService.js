@@ -146,6 +146,7 @@ export default {
       .then(response => {
         const data = response.data;
         console.log(JSON.stringify(data));
+        this.getBooks();
       })
       .catch(error => {
         console.log("Error => ", error, "Data => ", error.response.data);

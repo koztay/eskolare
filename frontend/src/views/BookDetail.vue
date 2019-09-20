@@ -33,7 +33,12 @@
       </v-row>
       <v-card-actions>
         <div>
-          <v-btn text color="primary" @click="addToReadList">Add to My Read List</v-btn>
+          <v-btn
+            text
+            color="primary"
+            @click="addToReadList"
+            :disabled="readByMe"
+          >{{this.readByMe ? "You Read This Book": "Add to My Read List" }}</v-btn>
         </div>
         <div class="flex-grow-1"></div>
       </v-card-actions>
@@ -85,6 +90,9 @@ export default {
         flattenCategory(element);
       });
       return flatten;
+    },
+    readByMe() {
+      return this.bookDetail.read_by.indexOf(this.profile.pk) > -1;
     }
   },
   methods: {
@@ -100,6 +108,7 @@ export default {
   },
   updated() {
     console.log("bookDetail", this.bookDetail);
+    console.log("profile", JSON.stringify(this.profile));
   }
 };
 </script>
