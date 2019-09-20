@@ -20,15 +20,15 @@ class ReviewSerializer(serializers.ModelSerializer):
 
 
 class BookSerializer(serializers.ModelSerializer):
-    # authors = serializers.PrimaryKeyRelatedField(many=True, queryset=models.Author.objects.all())
-    # categories = serializers.PrimaryKeyRelatedField(many=True, queryset=Category.objects.all())
+    # author_ids = serializers.PrimaryKeyRelatedField(many=True, queryset=models.Author.objects.all())
+    categories = serializers.PrimaryKeyRelatedField(many=True, queryset=Category.objects.all())
     # reviews = serializers.PrimaryKeyRelatedField(many=True, queryset=models.Review.objects.all())
     authors = AuthorSerializer(many=True, read_only=True)
     # categories = CategorySerializer(many=True, read_only=True)  # this is not necessary
     reviews = ReviewSerializer(many=True, read_only=True)
 
     class Meta:
-        fields = ('id', 'title', 'description', 'image', 'authors', 'reviews', 'read_by')
+        fields = ('id', 'title', 'description', 'image', 'authors', 'categories', 'reviews', 'read_by')
         read_only_fields = ('read_by', )
         model = models.Book
 

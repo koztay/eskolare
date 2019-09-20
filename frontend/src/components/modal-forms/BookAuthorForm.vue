@@ -3,7 +3,7 @@
     <v-dialog v-model="show" persistent max-width="600px">
       <v-card>
         <v-card-title>
-          <span class="headline">Select Categories</span>
+          <span class="headline">Select Authors</span>
         </v-card-title>
         <v-card-text>
           <v-container>
@@ -25,14 +25,14 @@
                   <v-card-text>
                     <v-treeview
                       v-if="this.book"
-                      v-model="selectedCategories"
+                      v-model="selectedAuthors"
                       open-all
                       ref="categoryTree"
-                      :items="categories"
+                      :items="authors"
                       :search="search"
                       :open.sync="open"
                       :filter="filter"
-                      item-text="title"
+                      item-text="name"
                       item-key="id"
                       selectable
                       selection-type="independent"
@@ -48,7 +48,7 @@
         <v-card-actions>
           <div class="flex-grow-1"></div>
           <v-btn color="blue darken-1" text @click="show = false">Close</v-btn>
-          <v-btn color="blue darken-1" text @click="setCategories">Save</v-btn>
+          <v-btn color="blue darken-1" text @click="setAuthors">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -73,7 +73,7 @@ export default {
   },
   computed: {
     ...mapState({
-      categories: state => state.categories.categories,
+      authors: state => state.authors.authors,
       stateBookId: state => state.books.bookId
     }),
     show: {
@@ -84,10 +84,9 @@ export default {
         this.$emit("input", value);
       }
     },
-
-    selectedCategories: {
+    selectedAuthors: {
       get() {
-        return this.book.categories;
+        return this.book.authors;
       },
       set() {
         return this.selectedItems;
@@ -104,25 +103,19 @@ export default {
       this.selectedItems = evt;
       console.log(this.selectedItems);
       this.payload = {
-        categories: this.selectedItems,
+        authors: this.selectedItems,
         id: this.book.id
       };
     },
-    setCategories() {
-      this.$store.dispatch("setCategories", this.payload).then(() => {
+    setAuthors() {
+      this.$store.dispatch("setAuthors", this.payload).then(() => {
         this.show = false;
         this.book = null;
       });
     }
   },
   created() {
-    this.$store.dispatch("fetchCategories");
-  },
-  updated() {
-    console.log("this.book", this.book);
-    console.log("selectedCategories", this.selectedCategories);
-    console.log("this.book.categories", this.book.categories);
-    // this.selectedCategories = this.book.categories;
+    this.$store.dispatch("fetchAuthors");
   }
 };
 </script>

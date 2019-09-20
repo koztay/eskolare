@@ -19,8 +19,8 @@
       </v-row>
     </v-container>
     <BookForm v-model="bookDialog" :headLine="this.headLine" />
-    <BookCategoryForm v-model="categoryDialog" :headLine="this.headLine" :book="this.book" />
-    <!-- <BookAuthorForm v-model="authorDialog" :headLine="this.headLine" /> -->
+    <BookCategoryForm v-model="categoryDialog" :book="this.book" />
+    <BookAuthorForm v-model="authorDialog" :book="this.book" />
   </div>
 </template>
 
@@ -29,6 +29,7 @@ import { mapState } from "vuex";
 import BookListItem from "../components/BookListItem";
 import BookForm from "../components/modal-forms/BookForm";
 import BookCategoryForm from "../components/modal-forms/BookCategoryForm";
+import BookAuthorForm from "../components/modal-forms/BookAuthorForm";
 
 export default {
   data: () => ({
@@ -41,7 +42,8 @@ export default {
   components: {
     BookListItem,
     BookForm,
-    BookCategoryForm
+    BookCategoryForm,
+    BookAuthorForm
   },
   computed: {
     ...mapState({
@@ -68,6 +70,7 @@ export default {
       this.categoryDialog = true;
     },
     setAuthors(book) {
+      this.book = book;
       this.setSelectedBook(book);
       this.authorDialog = true;
     },

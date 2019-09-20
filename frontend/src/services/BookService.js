@@ -89,10 +89,11 @@ export default {
   },
   setAuthors(data) {
     const url = `/api/books/${data.id}/set-authors/`;
+    console.log("set authors triggered => ", url);
     return apiCall
       .post(url, data)
       .then(res => {
-        console.log(res);
+        console.log("post başarılı :", res);
         this.getBooks();
       })
       .catch(error => {
