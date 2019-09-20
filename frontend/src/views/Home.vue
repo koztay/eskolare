@@ -1,15 +1,15 @@
 <template>
   <v-container>
-    <Posts/>
+    <BookList />
   </v-container>
 </template>
 
 <script>
-import Posts from "../components/Posts";
+import BookList from "../components/BookList";
 
 export default {
   components: {
-    Posts
+    BookList
   }
 };
 </script>

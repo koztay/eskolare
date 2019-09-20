@@ -7,7 +7,8 @@ import Signup from "./views/Signup.vue";
 import Account from "@/views/Account";
 import ManageCategories from "@/views/ManageCategories";
 import ManageAuthors from "@/views/ManageAuthors";
-import ManageBooks from "@/views/ManageBooks";
+// import ManageBooks from "@/views/ManageBooks"; // this is for staff user
+import BookDetail from "@/views/BookDetail"; // this is for both staff and standard user
 
 import store from "./store";
 
@@ -92,11 +93,16 @@ export default new Router({
       component: ManageAuthors,
       beforeEnter: ifSuperUser
     },
+    // {
+    //   path: "/manage-books/",
+    //   name: "manage-books",
+    //   component: ManageBooks,
+    //   beforeEnter: ifSuperUser
+    // },
     {
-      path: "/manage-books/",
-      name: "manage-books",
-      component: ManageBooks,
-      beforeEnter: ifSuperUser
+      path: "/books/:id",
+      name: "book-detail",
+      component: BookDetail
     }
   ]
 });

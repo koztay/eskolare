@@ -50,14 +50,14 @@
             <v-list-item-title>Manage Authors</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item router :to="{name:'manage-books'}" link>
+        <!-- <v-list-item router :to="{name:'manage-books'}" link>
           <v-list-item-icon>
             <v-icon>fas fa-home</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Manage Books</v-list-item-title>
           </v-list-item-content>
-        </v-list-item>
+        </v-list-item>-->
         <!-- <v-list-item router :to="{name:'home'}" link>
           <v-list-item-icon>
             <v-icon>fas fa-home</v-icon>
