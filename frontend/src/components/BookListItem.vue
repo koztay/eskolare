@@ -7,9 +7,9 @@
           <v-list-item-title class="headline">{{book.title}}</v-list-item-title>
           <v-list-item-subtitle>
             by
-            <span v-for="(author, index) in book.authors" :key="author.id">
+            <span v-for="(author, index) in booksAuthors" :key="author.id">
               <span>{{author.name}}</span>
-              <span v-if="index+1 < book.authors.length">,&nbsp;</span>
+              <span v-if="index+1 < booksAuthors.length">,&nbsp;</span>
             </span>
           </v-list-item-subtitle>
         </v-list-item-content>
@@ -66,8 +66,34 @@ export default {
   props: ["book"],
   computed: {
     ...mapState({
-      profile: state => state.user.profile
-    })
+      profile: state => state.user.profile,
+      authors: state => state.authors.authors,
+      categories: state => state.categories.categories // delete this after moving flatten categories.
+    }),
+    booksAuthors() {
+      var filtered = this.authors.filter(author => {
+        return this.book.authors.indexOf(author.id) > -1;
+      });
+      return filtered;
+    },
+
+    flatCategories() {
+      // move this method to book detail for listing categories.
+      let flatten = [];
+      const flattenCategory = category => {
+        let flatCategory = { id: category.id, title: category.title };
+        flatten.push(flatCategory);
+        if (category.children.length > 0) {
+          category.children.forEach(element => {
+            flattenCategory(element);
+          });
+        }
+      };
+      this.categories.forEach(element => {
+        flattenCategory(element);
+      });
+      return flatten;
+    }
   },
   methods: {
     editBook(book) {
@@ -79,6 +105,16 @@ export default {
     setAuthors(book) {
       this.$emit("setAuthorsClicked", book);
     }
+  },
+  created() {
+    console.log("authors pks from ListItem =>", this.book.authors);
+    // const filtered_categories = this.categories.filter(
+    //   category => category.id in this.book.categories
+    // );
+    var filtered = this.authors.filter(author => {
+      return this.book.authors.indexOf(author.id) > -1;
+    });
+    console.log("category objects from ListItem =>", JSON.stringify(filtered));
   }
 };
 </script>
