@@ -49,6 +49,10 @@ const actions = {
   deleteBook(_, data) {
     return BookService.deleteBook(data);
   },
+  uploadImage(_, data) {
+    console.log("gelen data ney ? ", data);
+    return BookService.uploadImage(data);
+  },
   updateBookId({ commit }, bookId) {
     commit("setBookId", bookId);
   },

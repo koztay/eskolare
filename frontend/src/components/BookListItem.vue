@@ -27,7 +27,7 @@
           </v-tooltip>
           <v-tooltip top>
             <template v-slot:activator="{ on }">
-              <v-btn color="primary" dark v-on="on" icon @click="editImage(book)">
+              <v-btn color="primary" dark v-on="on" icon @click="uploadImage(book)">
                 <v-icon>fa-image</v-icon>
               </v-btn>
             </template>
@@ -104,6 +104,9 @@ export default {
     },
     setAuthors(book) {
       this.$emit("setAuthorsClicked", book);
+    },
+    uploadImage(book) {
+      this.$emit("uploadImageClicked", book);
     }
   },
   created() {

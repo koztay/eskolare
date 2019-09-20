@@ -3,7 +3,7 @@
     <v-dialog v-model="show" persistent max-width="600px">
       <v-card>
         <v-card-title>
-          <span class="headline">Select Categories</span>
+          <span v-if="book" class="headline">Select Categories for "{{book.title}}"</span>
         </v-card-title>
         <v-card-text>
           <v-container>

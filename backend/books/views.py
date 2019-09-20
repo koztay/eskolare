@@ -1,12 +1,13 @@
 from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import action, authentication_classes, permission_classes
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 
 from categories.models import Category
 
 from .models import Author, Book, Review
 from .permissions import IsAdminUserOrReadOnly, IsOwnerOrReadOnly
-from .serializers import AuthorSerializer, BookSerializer, ReviewSerializer
+from .serializers import AuthorSerializer, BookSerializer, ReviewSerializer, BookImageSerializer
 
 
 class BookViewSet(viewsets.ModelViewSet):
@@ -21,6 +22,7 @@ class BookViewSet(viewsets.ModelViewSet):
         "read_by": []
     }
     """
+    parser_classes = (MultiPartParser, FormParser)
     pagination_class = None
     permission_classes = (
         permissions.IsAuthenticatedOrReadOnly,
@@ -28,6 +30,13 @@ class BookViewSet(viewsets.ModelViewSet):
     )
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+
+    # def get_serializer_class(self):
+    #     """Return appropriate serializer class"""
+    #     if self.action == 'retrieve':
+    #         return BookSerializer
+    #     elif self.action == 'upload_image':
+    #         return BookImageSerializer
 
     @action(detail=True, methods=['patch'], permission_classes=[permissions.IsAuthenticated], url_path='add-to-read-list')
     def add_to_read_list(self, request, pk=None):
@@ -46,7 +55,7 @@ class BookViewSet(viewsets.ModelViewSet):
     def upload_image(self, request, pk=None):
         """Upload an image to a book"""
         book = self.get_object()
-        serializer = self.get_serializer(
+        serializer = BookImageSerializer(
             book,
             data=request.data
         )

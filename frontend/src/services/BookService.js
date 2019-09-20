@@ -102,5 +102,21 @@ export default {
       .finally(() => {
         // store.commit("stopLoading");
       });
+  },
+  uploadImage(data) {
+    const url = `/api/books/${data.id}/upload-image/`;
+    console.log("upload Image triggered => ", url);
+    return apiCall
+      .post(url, data.image)
+      .then(res => {
+        console.log("post başarılı :", res);
+        this.getBooks();
+      })
+      .catch(error => {
+        console.log("Error => ", error, "Data => ", error.response.data);
+      })
+      .finally(() => {
+        // store.commit("stopLoading");
+      });
   }
 };

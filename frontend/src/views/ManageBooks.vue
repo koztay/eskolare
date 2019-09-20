@@ -15,12 +15,14 @@
           @editClicked="editBook(book)"
           @setCategoriesClicked="setCategories(book)"
           @setAuthorsClicked="setAuthors(book)"
+          @uploadImageClicked="uploadImage(book)"
         ></BookListItem>
       </v-row>
     </v-container>
     <BookForm v-model="bookDialog" :headLine="this.headLine" />
     <BookCategoryForm v-model="categoryDialog" :book="this.book" />
     <BookAuthorForm v-model="authorDialog" :book="this.book" />
+    <BookImageForm v-model="uploadImageDialog" :book="this.book" />
   </div>
 </template>
 
@@ -30,12 +32,14 @@ import BookListItem from "../components/BookListItem";
 import BookForm from "../components/modal-forms/BookForm";
 import BookCategoryForm from "../components/modal-forms/BookCategoryForm";
 import BookAuthorForm from "../components/modal-forms/BookAuthorForm";
+import BookImageForm from "../components/modal-forms/BookImageForm";
 
 export default {
   data: () => ({
     bookDialog: false,
     categoryDialog: false,
     authorDialog: false,
+    uploadImageDialog: false,
     headLine: "",
     book: null
   }),
@@ -43,7 +47,8 @@ export default {
     BookListItem,
     BookForm,
     BookCategoryForm,
-    BookAuthorForm
+    BookAuthorForm,
+    BookImageForm
   },
   computed: {
     ...mapState({
@@ -78,6 +83,11 @@ export default {
       this.$store.dispatch("updateBookId", book.id);
       this.$store.dispatch("updateBookTitle", book.title);
       this.$store.dispatch("updateBookDescription", book.description);
+    },
+    uploadImage(book) {
+      this.book = book;
+      this.setSelectedBook(book);
+      this.uploadImageDialog = true;
     }
   },
   created() {
