@@ -1,5 +1,7 @@
 ## Local workflow steps:
 
+### Assumed all necessary docker components has been installed local system
+
 - First build and up docker as below :
 
 ```sh
