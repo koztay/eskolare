@@ -54,10 +54,10 @@
             <span>Add/Edit Authors</span>
           </v-tooltip>
         </div>
-        <div v-else>
+        <!-- <div v-else>
           <v-btn text color="deep-purple accent-4">Read</v-btn>
           <v-btn text color="deep-purple accent-4">Bookmark</v-btn>
-        </div>
+        </div>-->
         <div class="flex-grow-1"></div>
       </v-card-actions>
     </v-card>

@@ -30,6 +30,7 @@
             <v-card-text>{{bookDetail.description}}</v-card-text>
           </v-container>
           <v-btn
+            v-if="this.profile.pk"
             text
             color="primary"
             @click="addToReadList"
@@ -38,7 +39,7 @@
         </v-col>
       </v-row>
       <v-divider class="mx-4"></v-divider>
-      <v-container v-if="!reviewedByMe">
+      <v-container v-if="!reviewedByMe&&this.profile.pk">
         <v-textarea auto-grow v-model="review" label="Add your review"></v-textarea>
         <v-btn class="ma-2" outlined color="primary" @click="submitReview">Submit Your Review</v-btn>
       </v-container>
@@ -108,7 +109,7 @@ export default {
       return this.bookDetail.read_by.indexOf(this.profile.pk) > -1;
     },
     reviewedByMe() {
-      if (this.bookDetail.reviews) {
+      if (this.bookDetail.reviews.length > 0) {
         const bookReviewsByMe = this.bookDetail.reviews.find(
           review => review.user === this.profile.pk
         );
