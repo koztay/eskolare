@@ -71,7 +71,17 @@
     <v-app-bar color="primary" dark>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>ESKOLARE</v-toolbar-title>
+      <v-toolbar-title>
+        <!-- <span
+          @click="navigateHome"
+          @mouseover="hover = true"
+          @mouseleave="hover = false"
+          :class="{ active: hover }"
+        >ESKOLARE</span>-->
+        <router-link :to="{ name:'home'}">
+          <span>ESKOLARE</span>
+        </router-link>
+      </v-toolbar-title>
 
       <div class="flex-grow-1"></div>
 
@@ -200,6 +210,7 @@ export default {
   data() {
     return {
       drawer: false,
+      hower: false,
       searchText: "",
       links: [
         { icon: "dashboard", text: "Dashboard", route: "/" },
@@ -216,6 +227,9 @@ export default {
     search() {
       console.log("will be searching :", this.searchText);
       this.searchText = "";
+    },
+    navigateHome() {
+      this.$router.push("/");
     }
   },
   computed: {
@@ -236,10 +250,9 @@ export default {
 };
 </script>
 
-<style>
-.toolbar-title {
+<style scoped>
+.v-application a {
   color: white;
-  text-decoration: none;
 }
 </style>
 
