@@ -1,6 +1,6 @@
 ## Local workflow steps:
 
-### Assumed all necessary docker components has been installed local system
+### !!! Assumed all necessary docker components has been installed local system !!!
 
 - First build and up docker as below :
 
@@ -15,10 +15,10 @@ $ docker-compose -f local.yml up
 $ docker-compose -f local.yml run django python manage.py createsuperuser
 ```
 
-- Register a couple of users from the vuejs frontend by clicking signup button:
+- Register a couple of users from the vuejs frontend by clicking signup button on this url:
   http://localhost
 
-- Login as super user from the django backed and make some users as staff user.:
+- Login as super user from the django backed and make some users as staff user on this url:
   http://localhost/admin/
 
 - Login as staff user for testing crud functionality from the frontend
