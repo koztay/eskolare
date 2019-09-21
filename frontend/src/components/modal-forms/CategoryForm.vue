@@ -109,15 +109,12 @@ export default {
       });
     },
     updateCategory() {
-      console.log("edit Category çalışacak");
       this.$store.dispatch("updateCategory", this.payload).then(() => {
         this.show = false;
       });
     }
   },
   updated() {
-    // console.log("this comes from updated =>", this.categoryTitle);
-    // console.log("this comes from updated =>", this.parentCategoryId);
     this.payload = {
       parent: this.parentCategoryId,
       title: this.categoryTitle,

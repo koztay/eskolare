@@ -22,7 +22,6 @@ class BookViewSet(viewsets.ModelViewSet):
         "read_by": []
     }
     """
-    parser_classes = (MultiPartParser, FormParser)
     pagination_class = None
     permission_classes = (
         permissions.IsAuthenticatedOrReadOnly,
@@ -30,13 +29,6 @@ class BookViewSet(viewsets.ModelViewSet):
     )
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-
-    # def get_serializer_class(self):
-    #     """Return appropriate serializer class"""
-    #     if self.action == 'retrieve':
-    #         return BookSerializer
-    #     elif self.action == 'upload_image':
-    #         return BookImageSerializer
 
     @action(detail=True, methods=['patch'], permission_classes=[permissions.IsAuthenticated], url_path='add-to-read-list')
     def add_to_read_list(self, request, pk=None):

@@ -83,12 +83,23 @@ export default {
       }
     },
     addBook() {
+      this.payload = {
+        title: this.bookTitle,
+        description: this.bookDescription,
+        authors: [],
+        categories: []
+      };
       this.$store.dispatch("addBook", this.payload).then(() => {
         this.show = false;
         this.resetState();
       });
     },
     updateBook() {
+      this.payload = {
+        title: this.bookTitle,
+        description: this.bookDescription,
+        id: this.stateBookId
+      };
       this.$store.dispatch("updateBook", this.payload).then(() => {
         this.show = false;
         this.resetState();
@@ -101,11 +112,11 @@ export default {
     }
   },
   updated() {
-    this.payload = {
-      title: this.bookTitle,
-      description: this.bookDescription,
-      id: this.stateBookId
-    };
+    // this.payload = {
+    //   title: this.bookTitle,
+    //   description: this.bookDescription,
+    //   id: this.stateBookId
+    // };
   }
 };
 </script>

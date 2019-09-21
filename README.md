@@ -56,6 +56,9 @@ to:
 - 'traefik.frontend.rule=Host:<YOUR-IP-ADDRESS or YOUR-DOMAIN>'
 ```
 
+- Change the AWS bucket name setting at file `backends/.envs/.production/.django` accordingly:
+  `DJANGO_AWS_STORAGE_BUCKET_NAME=organikse`
+
 - Give the following command at project root in terminal:
 
 ```sh

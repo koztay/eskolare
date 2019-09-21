@@ -61,11 +61,9 @@ const actions = {
     return BookService.deleteBook(data);
   },
   addToReadList(_, bookId) {
-    console.log("bookId add to readlis için geliyor mu? ", bookId);
     return BookService.addToReadList(bookId);
   },
   uploadImage(_, data) {
-    console.log("gelen data ney ? ", data);
     return BookService.uploadImage(data);
   },
   submitReview(_, data) {

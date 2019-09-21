@@ -175,7 +175,7 @@ export default {
         ...this.password2Errors,
         ...this.emailErrors
       ];
-      // console.log(formErrorsArray);
+
       if (
         !this.$v.email.$dirty ||
         !this.$v.password1.$dirty ||

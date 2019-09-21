@@ -1,7 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
-import CreatePost from "./views/CreatePost.vue";
 import Login from "./views/Login.vue";
 import Signup from "./views/Signup.vue";
 import Account from "@/views/Account";
@@ -40,7 +39,6 @@ const ifSuperUser = (to, from, next) => {
 };
 
 const ifDirectBrowse = (to, from, next) => {
-  console.log("amına koduğumu fromu ney =>", from);
   if (from.name) {
     next();
   } else {
@@ -70,12 +68,6 @@ export default new Router({
       path: "/account/",
       name: "account",
       component: Account,
-      beforeEnter: ifAuthenticated
-    },
-    {
-      path: "/create-post/",
-      name: "create-post",
-      component: CreatePost,
       beforeEnter: ifAuthenticated
     },
     {

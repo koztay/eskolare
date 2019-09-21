@@ -95,14 +95,9 @@ export default {
     }
   },
   created() {
-    console.log("authors pks from ListItem =>", this.book.authors);
-    // const filtered_categories = this.categories.filter(
-    //   category => category.id in this.book.categories
-    // );
     var filtered = this.authors.filter(author => {
       return this.book.authors.indexOf(author.id) > -1;
     });
-    console.log("category objects from ListItem =>", JSON.stringify(filtered));
   }
 };
 </script>

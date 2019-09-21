@@ -90,7 +90,6 @@ export default {
       this.$v.$touch();
       if (this.emailErrors.length === 0 && this.passwordErrors.length === 0) {
         const { email, password } = this;
-        //   console.log({ username, password });
         this.$store
           .dispatch(AUTH_REQUEST, { email, password })
           .then(() => {
@@ -131,7 +130,6 @@ export default {
     },
     submitButtonDisabled() {
       const formErrorsArray = [...this.emailErrors, ...this.passwordErrors];
-      // console.log(formErrorsArray);
       if (!this.$v.email.$dirty || !this.$v.password.$dirty) {
         return true;
       }

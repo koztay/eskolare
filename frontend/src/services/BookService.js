@@ -5,12 +5,10 @@ export default {
   getBooks() {
     // store.commit("startLoading");
     const url = `/api/books/`;
-    console.log("fetchBooks çalışıyor mu?");
     return apiCall
       .get(url)
       .then(response => {
         const data = response.data;
-        // console.log(JSON.stringify(data));
         store.commit("setBooks", data);
       })
       .catch(error => {
@@ -23,12 +21,10 @@ export default {
   getBook(bookId) {
     // store.commit("startLoading");
     const url = `/api/books/${bookId}/`;
-    console.log("url ney amk => ", url);
     return apiCall
       .get(url)
       .then(response => {
         const data = response.data;
-        console.log(JSON.stringify(data));
         store.commit("setBook", data);
       })
       .catch(error => {
@@ -39,12 +35,11 @@ export default {
       });
   },
   addBook(data) {
-    console.log("data gelmiş mi => ", data);
+    console.log(data);
     const url = `/api/books/`;
     return apiCall
       .post(url, data)
-      .then(res => {
-        console.log(res);
+      .then(() => {
         this.getBooks();
       })
       .catch(error => {
@@ -55,14 +50,11 @@ export default {
       });
   },
   updateBook(data) {
-    console.log("data gelmiş mi => ", data);
     const url = `/api/books/${data.id}/`;
-    console.log("url gelmiş mi => ", url);
 
     return apiCall
       .patch(url, data)
-      .then(res => {
-        console.log(res);
+      .then(() => {
         this.getBooks();
       })
       .catch(error => {
@@ -73,14 +65,11 @@ export default {
       });
   },
   deleteBook(data) {
-    console.log("data gelmiş mi => ", data);
     const url = `/api/books/${data.id}/`;
-    console.log("url gelmiş mi => ", url);
 
     return apiCall
       .delete(url, data)
-      .then(res => {
-        console.log(res);
+      .then(() => {
         this.getBooks();
       })
       .catch(error => {
@@ -94,8 +83,7 @@ export default {
     const url = `/api/books/${data.id}/set-categories/`;
     return apiCall
       .post(url, data)
-      .then(res => {
-        console.log(res);
+      .then(() => {
         this.getBooks();
       })
       .catch(error => {
@@ -107,11 +95,9 @@ export default {
   },
   setAuthors(data) {
     const url = `/api/books/${data.id}/set-authors/`;
-    console.log("set authors triggered => ", url);
     return apiCall
       .post(url, data)
-      .then(res => {
-        console.log("post başarılı :", res);
+      .then(() => {
         this.getBooks();
       })
       .catch(error => {
@@ -123,11 +109,9 @@ export default {
   },
   uploadImage(data) {
     const url = `/api/books/${data.id}/upload-image/`;
-    console.log("upload Image triggered => ", url);
     return apiCall
       .post(url, data.image)
-      .then(res => {
-        console.log("post başarılı :", res);
+      .then(() => {
         this.getBooks();
       })
       .catch(error => {
@@ -140,12 +124,9 @@ export default {
   addToReadList(bookId) {
     // store.commit("startLoading");
     const url = `/api/books/${bookId}/add-to-read-list/`;
-    console.log("url ney amk => ", url);
     return apiCall
       .patch(url)
-      .then(response => {
-        const data = response.data;
-        console.log(JSON.stringify(data));
+      .then(() => {
         this.getBooks();
       })
       .catch(error => {
@@ -159,9 +140,7 @@ export default {
     const url = `/api/reviews/`;
     return apiCall
       .post(url, data)
-      .then(response => {
-        const data = response.data;
-        console.log(JSON.stringify(data));
+      .then(() => {
         this.getBooks();
       })
       .catch(error => {

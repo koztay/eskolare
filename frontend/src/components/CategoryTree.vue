@@ -113,8 +113,7 @@ export default {
       } else {
         this.alertMessage = "";
       }
-      console.log(JSON.stringify(evt));
-      // console.log(JSON.stringify(evt));
+
       if (this.selectedItems.length === 1) {
         this.$store.dispatch(
           "updateCategoryTitle",
@@ -134,10 +133,8 @@ export default {
     addCategory() {
       this.headLine = "Add Category";
       this.alertMessage = "";
-      console.log("categoryTree ney => ", this.$refs.categoryTree.selection);
       this.$refs.categoryTree.selection = [];
       this.$refs.categoryTree.openall = true;
-      // this.addCategoryDialog = true;
       this.categoryDialog = true;
     },
     editCategory() {

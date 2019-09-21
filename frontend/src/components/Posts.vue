@@ -29,10 +29,8 @@ export default {
         .get("/api/posts")
         .then(resp => {
           this.posts = resp.data.results;
-          // console.log(resp.data.results);
         })
         .catch(() => {
-          // console.log(err);
           console.log("Handle bad credentials here");
         });
     }

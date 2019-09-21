@@ -10,7 +10,6 @@ export default {
       .get(url)
       .then(response => {
         const data = response.data;
-        console.log(JSON.stringify(data));
         store.commit("setCategories", data);
       })
       .catch(error => {
@@ -21,12 +20,10 @@ export default {
       });
   },
   addCategory(data) {
-    console.log("data gelmiş mi => ", data);
     const url = `/api/categories/`;
     return apiCall
       .post(url, data)
-      .then(res => {
-        console.log(res);
+      .then(() => {
         this.getCategories();
       })
       .catch(error => {
@@ -37,14 +34,11 @@ export default {
       });
   },
   updateCategory(data) {
-    console.log("data gelmiş mi => ", data);
     const url = `/api/categories/${data.id}/`;
-    console.log("url gelmiş mi => ", url);
 
     return apiCall
       .patch(url, data)
-      .then(res => {
-        console.log(res);
+      .then(() => {
         this.getCategories();
       })
       .catch(error => {
@@ -55,14 +49,11 @@ export default {
       });
   },
   deleteCategory(data) {
-    console.log("data gelmiş mi => ", data);
     const url = `/api/categories/${data.id}/`;
-    console.log("url gelmiş mi => ", url);
 
     return apiCall
       .delete(url, data)
-      .then(res => {
-        console.log(res);
+      .then(() => {
         this.getCategories();
       })
       .catch(error => {

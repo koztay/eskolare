@@ -122,7 +122,6 @@ export default {
   methods: {
     addToReadList() {
       this.$store.dispatch("addToReadList", this.bookId);
-      console.log("booksAuthors  => ", this.bookAuthors);
     },
     submitReview() {
       const payload = {
@@ -137,11 +136,6 @@ export default {
     this.$store.dispatch("fetchBooks").then(() => {
       this.$store.dispatch("updateBookId", this.bookId);
     }); // this needed for getting book detail
-  },
-  updated() {
-    console.log("bookDetail", this.bookDetail);
-    console.log("profile", JSON.stringify(this.profile));
-    console.log("reviewdByMe", JSON.stringify(this.reviewdByMe));
   }
 };
 </script>

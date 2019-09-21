@@ -113,7 +113,6 @@ const actions = {
     const now = new Date();
     const expirationAsDateObj = new Date(expirationDate); // karşılaştırmak için Date object 'e çevirmen lazım...
     if (now >= expirationAsDateObj) {
-      console.log("dolayısıyla if in çalışması ve logout olması lazım...");
       commit(AUTH_LOGOUT);
       return;
     }
@@ -122,7 +121,6 @@ const actions = {
   },
   refreshToken({ commit, dispatch }) {
     // mevcut token ile yeni token alan action bu
-    // console.log('refreshToken çalıştı', token);
     const token = state.token;
     if (token) {
       return new Promise((resolve, reject) => {

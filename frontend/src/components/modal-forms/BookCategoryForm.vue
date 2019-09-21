@@ -102,7 +102,7 @@ export default {
   methods: {
     itemSelected(evt) {
       this.selectedItems = evt;
-      console.log(this.selectedItems);
+
       this.payload = {
         categories: this.selectedItems,
         id: this.book.id
@@ -117,12 +117,6 @@ export default {
   },
   created() {
     this.$store.dispatch("fetchCategories");
-  },
-  updated() {
-    console.log("this.book", this.book);
-    console.log("selectedCategories", this.selectedCategories);
-    console.log("this.book.categories", this.book.categories);
-    // this.selectedCategories = this.book.categories;
   }
 };
 </script>

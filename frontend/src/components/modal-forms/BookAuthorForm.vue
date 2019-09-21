@@ -101,7 +101,6 @@ export default {
   methods: {
     itemSelected(evt) {
       this.selectedItems = evt;
-      console.log(this.selectedItems);
       this.payload = {
         authors: this.selectedItems,
         id: this.book.id
