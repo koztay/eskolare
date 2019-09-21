@@ -34,30 +34,38 @@ $ docker-compose -f local.yml run django python manage.py createsuperuser
 docker-machine create \
              --driver generic \
              --generic-engine-port=2376 \
-             --generic-ip-address=<your-machine-ip-address> \
+             --generic-ip-address=172.104.225.203 \
              --generic-ssh-user=root \
              --generic-ssh-port=22 \
-             <your-machine-name>
+             organikse
 ```
 
-- Give the final commands at project root in terminal from the above process:
-- At this stage your docker-machine has been activated to deploy your project
+- When the above process finished, give the following command at project root in terminal `docker-machine env <your-machine-name>`
+- Then give the following command `eval $(docker-machine env <your-machine-name>)`
+- Now your docker-machine should have been activated, test it with the following command `docker-machine ls`
+- At this stage your VPS is ready to deploy your project.
 - Change the following setting from production.yml file according to your host :
 
 ```yml
-- 'traefik.frontend.rule=Host:organik.se'
+- 'traefik.frontend.rule=Host:172.104.225.203'
 ```
 
 to:
 
 ```yml
-- 'traefik.frontend.rule=Host:eskolare.com' # or your IP address
+- 'traefik.frontend.rule=Host:<YOUR-IP-ADDRESS or YOUR-DOMAIN>'
 ```
 
 - Give the following command at project root in terminal:
 
 ```sh
 docker-compose -f production.yml build && docker-compose -f production.yml up -d
+```
+
+- Apply migrations to django backend
+
+```sh
+docker-compose -f production.yml run --rm django python manage.py migrate
 ```
 
 - Now your has been deployed to the cloud visit the http://<YOUR-IP-ADDRESS> or https://<YOUR-DOMAIN>

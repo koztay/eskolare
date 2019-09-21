@@ -42,7 +42,7 @@ services:
     labels:
       - 'traefik.django=nginx'
       - 'traefik.docker.network=main'
-      - 'traefik.frontend.rule=Host:organik.se' # bu hostu doğru yazmazsan frontend çalışmıyor.
+      - 'traefik.frontend.rule=Host:172.104.225.203' # bu hostu doğru yazmazsan frontend çalışmıyor.
       - 'traefik.enable=true'
       - 'traefik.frontend.passHostHeader=true'
       - 'traefik.port=80'

@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container class="grey lighten-5">
-      <v-fab-transition>
+      <v-fab-transition v-if="profile.is_superuser||profile.is_staff">
         <v-btn color="primary" class="add-button" dark top absolute right fab @click="addBook">
           <v-icon>fa-plus</v-icon>
         </v-btn>
@@ -52,6 +52,7 @@ export default {
   },
   computed: {
     ...mapState({
+      profile: state => state.user.profile,
       books: state => state.books.books,
       stateBookTitle: state => state.books.bookTitle,
       stateBookId: state => state.books.bookId

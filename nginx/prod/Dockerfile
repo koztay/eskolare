@@ -1,10 +1,10 @@
 # build stage
 FROM node:lts-alpine as build-stage
 WORKDIR /app/
-COPY vue-client/package.json /app/
+COPY frontend/package.json /app/
 RUN npm cache verify
 RUN npm install
-COPY vue-client /app/
+COPY frontend /app/
 RUN npm run build
 
 # production stage
