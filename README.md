@@ -1,3 +1,7 @@
+## Demo URL : http://172.104.225.203/
+
+For admin user access please contact me by providing your signed-up email.
+
 ## Local workflow steps:
 
 ### !!! Assumed all necessary docker components has been installed local system !!!
