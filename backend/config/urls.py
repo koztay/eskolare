@@ -1,3 +1,4 @@
+from allauth.account.views import confirm_email
 from django.conf import settings
 from django.urls import include, path, re_path
 from django.conf.urls.static import static
@@ -25,6 +26,7 @@ urlpatterns = [
     # User management
     path("users/", include("eskolare.users.urls", namespace="users")),  # testler çalışmıyor disable edince
     path("accounts/", include("allauth.urls")),
+
     # Your stuff: custom urls includes go here
     # REST Framework
 
@@ -37,6 +39,9 @@ urlpatterns = [
     path("api-auth/", include("rest_framework.urls")),
     path("api/rest-auth/", include("rest_auth.urls")),
     path("api/rest-auth/registration/", include("rest_auth.registration.urls")),
+    re_path(r'^api/registration/account-confirm-email/(?P<key>.+)/$',
+            confirm_email, name='account_confirm_email'),
+
 
     path('api/', include('books.urls')),
     path('api/', include("eskolare.users.api.urls")),
