@@ -2,6 +2,14 @@
 
 For admin user access please contact me by providing your signed-up email.
 
+## Project Features:
+
+- VueJS frontend, Django backend.
+- Completely separated frontend and backend architecture.
+- Development and deployment with docker.
+- Automatic SSL certificates (create and renew) by traefik on production with domain access.
+- Book images stored on AWS.
+
 ## Local workflow steps:
 
 ### !!! Assumed all necessary docker components has been installed local system !!!
@@ -41,7 +49,7 @@ docker-machine create \
              --generic-ip-address=172.104.225.203 \
              --generic-ssh-user=root \
              --generic-ssh-port=22 \
-             organikse
+             <your-machine-name>
 ```
 
 - When the above process finished, give the following command at project root in terminal `docker-machine env <your-machine-name>`
